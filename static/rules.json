@@ -1,0 +1,335 @@
+[
+  {
+    "expression": "SERAO",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Gym"
+    }
+  },
+  {
+    "expression": "Audible",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Subscriptions"
+    }
+  },
+  {
+    "expression": "Groceries",
+    "properties_to_match": [
+      "category"
+    ],
+    "updated_values": {
+      "category": "Groceries"
+    }
+  },
+  {
+    "expression": "Transportation",
+    "properties_to_match": [
+      "category"
+    ],
+    "updated_values": {
+      "category": "Transportation"
+    }
+  },
+  {
+    "expression": "Restaurants",
+    "properties_to_match": [
+      "category"
+    ],
+    "updated_values": {
+      "category": "Restaurants & Dining"
+    }
+  },
+  {
+    "expression": "COMCAST",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Utilities"
+    }
+  },
+  {
+    "expression": "Clothing",
+    "properties_to_match": [
+      "category"
+    ],
+    "updated_values": {
+      "category": "Clothing"
+    }
+  },
+  {
+    "expression": ": Entertainment",
+    "properties_to_match": [
+      "category"
+    ],
+    "updated_values": {
+      "category": "Entertainment"
+    }
+  },
+  {
+    "expression": ": General Merchandise",
+    "properties_to_match": [
+      "category"
+    ],
+    "updated_values": {
+      "category": "Other"
+    }
+  },
+  {
+    "expression": "CALIFORNIA DMV",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Transportation"
+    }
+  },
+  {
+    "expression": "GEICO",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Transportation"
+    }
+  },
+  {
+    "expression": "Income",
+    "properties_to_match": [
+      "category"
+    ],
+    "updated_values": {
+      "category": "Income"
+    }
+  },
+  {
+    "expression": "(Fitness|Health|YMCA)",
+    "properties_to_match": [
+      "category"
+    ],
+    "updated_values": {
+      "category": "Gym"
+    }
+  },
+  {
+    "expression": "COSMOPROF",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Work Expenses"
+    }
+  },
+  {
+    "expression": "RWA SERIOUS BEAUTY",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Work Expenses"
+    }
+  },
+  {
+    "expression": "LEMONADE INSURANCE",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Rent"
+    }
+  },
+  {
+    "expression": "COSTCO",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Groceries"
+    }
+  },
+  {
+    "expression": "Gasoline/Fuel",
+    "properties_to_match": [
+      "category"
+    ],
+    "updated_values": {
+      "category": "Transportation"
+    }
+  },
+  {
+    "expression": "SALONCENTRIC",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Work Expenses"
+    }
+  },
+  {
+    "expression": "Personal Care",
+    "properties_to_match": [
+      "category"
+    ],
+    "updated_values": {
+      "category": "Personal"
+    }
+  },
+  {
+    "expression": "Travel",
+    "properties_to_match": [
+      "category"
+    ],
+    "updated_values": {
+      "category": "Travel"
+    }
+  },
+  {
+    "expression": "STATE FARM",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Transportation"
+    }
+  },
+  {
+    "expression": "SPOTIFY USA",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Subscriptions"
+    }
+  },
+  {
+    "expression": "EDWARD JONES",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Investments"
+    }
+  },
+  {
+    "expression": "-325.00",
+    "properties_to_match": [
+      "amount"
+    ],
+    "updated_values": {
+      "category": "Work Expenses"
+    }
+  },
+  {
+    "expression": "Home",
+    "properties_to_match": [
+      "category"
+    ],
+    "updated_values": {
+      "category": "Home"
+    }
+  },
+  {
+    "expression": "NOVA SALON SYSTEMS",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Work Expenses"
+    }
+  },
+  {
+    "expression": "Deposits",
+    "properties_to_match": [
+      "category"
+    ],
+    "updated_values": {
+      "category": "Income"
+    }
+  },
+  {
+    "expression": "Payment",
+    "properties_to_match": [
+      "category"
+    ],
+    "updated_values": {
+      "category": "Credit Card Payment"
+    }
+  },
+  {
+    "expression": "59.00",
+    "properties_to_match": [
+      "amount"
+    ],
+    "updated_values": {
+      "category": "Phones"
+    }
+  },
+  {
+    "expression": "FEDLOAN SERVICING",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Student Loans"
+    }
+  },
+  {
+    "expression": "-3,495.00",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Student Loans"
+    }
+  },
+  {
+    "expression": "TJ MAXX",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Other"
+    }
+  },
+  {
+    "expression": "SALESFORCE.COM",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Income"
+    }
+  },
+  {
+    "expression": "-3495.00",
+    "properties_to_match": [
+      "amount"
+    ],
+    "updated_values": {
+      "category": "Rent"
+    }
+  },
+  {
+    "expression": "-3,495.00",
+    "properties_to_match": [
+      "amount"
+    ],
+    "updated_values": {
+      "category": "Rent"
+    }
+  },
+  {
+    "expression": "PACIFIC GAS AND ELECTRIC",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Utilities"
+    }
+  }
+]

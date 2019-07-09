@@ -1,0 +1,22 @@
+{
+  "name": "spreadsheet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "csvtojson": "^2.0.10",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "googleapis": "^39.2.0",
+    "json2csv": "^4.5.1",
+    "moment": "^2.24.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}

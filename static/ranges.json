@@ -1,0 +1,53 @@
+{
+  "Groceries": {
+    "range": "F:H"
+  },
+  "Rent": {
+    "range": "I:K"
+  },
+  "Entertainment": {
+    "range": "L:N"
+  },
+  "Phones": {
+    "range": "O:Q"
+  },
+  "Utilities": {
+    "range": "R:T"
+  },
+  "Gym": {
+    "range": "U:W"
+  },
+  "Clothing": {
+    "range": "XZ"
+  },
+  "Restaurants & Dining": {
+    "range": "AA:AC"
+  },
+  "Investments": {
+    "range": "AD:AF"
+  },
+  "Work Expenses": {
+    "range": "AG:AI"
+  },
+  "Subscriptions": {
+    "range": "AJ:AL"
+  },
+  "Transportation": {
+    "range": "AM:AO"
+  },
+  "Personal": {
+    "range": "AP:AR"
+  },
+  "Travel": {
+    "range": "AS:AU"
+  },
+  "Student Loans": {
+    "range": "AV:AX"
+  },
+  "Home": {
+    "range": "AY:BA"
+  },
+  "Other": {
+    "range": "BB:BD"
+  }
+}
