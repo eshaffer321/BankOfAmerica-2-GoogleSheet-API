@@ -41,7 +41,6 @@ function appendSpreadSheetRangeToTransactions(transactionsList) {
     transactionsList.forEach(function(entry) {
         entry['range'] = rangeMap[entry.category];
         if (rangeMap[entry.category]) {
-
             entry['range'] = rangeMap[entry.category].range
         }
     });
@@ -72,8 +71,13 @@ async function insertDataIntoSpreadSheet(transactionList) {
         // find the column number for each transaction
         transactionList.forEach(async function(transaction) {
             if (transaction.range) {
-                transaction.amount = transaction.amount.replace('-', '').replace(',', '');
-                transaction.amount = Math.abs(transaction.amount);
+                if (transaction.transaction_type === 'credit' && typeof transaction.amount === 'string') {
+                    transaction.amount = transaction.amount.replace(',', '').replace('$', '');
+                } else {
+                    transaction.amount = transaction.amount.toString().replace('-', '').replace(',', '').replace('$', '');
+                    transaction.amount = Math.abs(transaction.amount);
+                }
+
                 findColumnNumberForTransaction(transactionSpreadSheet,transaction);
             } else {
             }
@@ -173,7 +177,6 @@ module.exports = function(transactions) {
         let income = require('./income')(data);
         income.insertManyIncome();
         appendSpreadSheetRangeToTransactions(data);
-        console.log(data);
         await insertDataIntoSpreadSheet(data);
     };
 

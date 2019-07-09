@@ -331,5 +331,14 @@
     "updated_values": {
       "category": "Utilities"
     }
+  },
+  {
+    "expression": "TJ MAXX",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Home"
+    }
   }
 ]

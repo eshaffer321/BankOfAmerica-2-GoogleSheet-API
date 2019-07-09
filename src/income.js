@@ -20,13 +20,19 @@ module.exports = function(income) {
             income.forEach(function(item) {
                 if (item.category === 'Income') {
                     income_list.push(item);
+
                 }
             });
 
             income_list.forEach(function(income) {
                 insertPossibleDuplicate(incomeCells, income);
             });
+
+            updateIncomeCells(incomeCells, function(done) {
+                console.log('done updating income cells');
+            });
         });
+
     };
 
     function insertPossibleDuplicate(incomeCells, income) {
@@ -59,7 +65,7 @@ module.exports = function(income) {
         let moment = require('moment');
         let request = {
             spreadsheetId: process.env['SPREADSHEET_ID'],
-            range: moment().format('MM-YY') + '!' + 'A21:D35',
+            range: moment().format('MM-YY') + '!' + 'A21:D51',
             auth: jwtClient,
         };
 
@@ -72,10 +78,12 @@ module.exports = function(income) {
         });
     }
 
-    function updateIncomeCells(resource, callback) {
+    function updateIncomeCells(values, callback) {
+
+        let resource = {values};
         let params = {
             spreadsheetId: process.env['SPREADSHEET_ID'],
-            range: moment().format('MM-YY') + '!' + 'A21:D35',
+            range: moment().format('MM-YY') + '!' + 'A21:D51',
             valueInputOption: 'USER_ENTERED',
             auth: jwtClient,
             resource: resource

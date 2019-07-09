@@ -7,28 +7,7 @@ app.use(express.urlencoded());
 const balanceUpdater = require('./balance');
 const dateUpdate = require('./date');
 
-let temp = [[{
-    'merchant_name': 'Check',
-    'amount': '-3,495.00',
-    'category': 'Cash, Checks & Misc: Checks',
-    'date': '07/05/2019',
-    'description': 'activity type check',
-    'transaction_type': 'checking'
-}, {
-    'merchant_name': 'PACIFIC GAS AND ELECTRIC',
-    'amount': '-41.60',
-    'category': 'Home & Utilities: Utilities',
-    'date': '07/02/2019',
-    'description': 'PGANDE DES:WEB ONLINE ID:XXXXX811063019 INDN:ERICK SHAFFER CO ID:XXXXX42640 WEB',
-    'transaction_type': 'checking'
-}, {
-    'merchant_name': 'FEDLOAN SERVICING',
-    'amount': '-4,957.54',
-    'category': 'Education: Education',
-    'date': '07/02/2019',
-    'description': 'FEDLOANSERVICING DES:STDNT LOAN ID:6NCF2VCSKB1 INDN:ERICK SHAFFER CO ID:XXXXX00802 WEB',
-    'transaction_type': 'checking'
-}], [], []]
+let temp = [];
 
 
 app.post('/update-balance', async function (req, res) {
