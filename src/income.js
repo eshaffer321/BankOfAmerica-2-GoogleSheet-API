@@ -17,17 +17,20 @@ module.exports = function(income) {
         let income_list = [];
 
         getIncomeCells(function(incomeCells) {
+
+            // Create a list that contains only income items
             income.forEach(function(item) {
                 if (item.category === 'Income') {
                     income_list.push(item);
-
                 }
             });
 
+            // go through each income and check if it should be inserted
             income_list.forEach(function(income) {
                 insertPossibleDuplicate(incomeCells, income);
             });
 
+            // send the updated income cells to google sheets
             updateIncomeCells(incomeCells, function(done) {
                 console.log('done updating income cells');
             });
@@ -37,10 +40,12 @@ module.exports = function(income) {
 
     function insertPossibleDuplicate(incomeCells, income) {
 
-        let unique = 1;
+        let unique = true;
+
+        // go through each cell row and see if income is already present
         incomeCells.forEach(function(row) {
-            if (row[0] === income.date && row[3] === income.amount) {
-                unique = 0;
+            if (row[0] === income.date && row[3] !== ' ' && Math.abs(row[3]) === Math.abs(income.amount)) {
+                unique = false;
             }
         });
 
@@ -54,7 +59,7 @@ module.exports = function(income) {
         incomeCellList.forEach(function(row) {
             if (row[0] === ' ' && row[1] === ' ' && row[2] === ' ' && row[3] === ' ' && !found) {
                 row[0] = income.date;
-                row[3] = income.amount;
+                row[3] = Math.abs(income.amount);
                 found = 1;
             }
         });
