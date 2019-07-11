@@ -3,14 +3,12 @@ let moment = require('moment');
 const jwtClient = require('../auth/auth.js');
 const {google} = require('googleapis');
 const sheets = google.sheets('v4');
+const logger = require('./logger');
+const loggingMoment = require('moment');
 
 function Date() {
     this.date = moment().format('MM-YY');
 }
-
-Date.prototype.getCurrentDate = function() {
-    return this.data;
-};
 
 Date.prototype.getAllSheetNames = function (callback) {
     sheets.spreadsheets.get({
@@ -18,7 +16,10 @@ Date.prototype.getAllSheetNames = function (callback) {
         spreadsheetId: process.env['SPREADSHEET_ID'],
     }, function (err, response) {
         if (err) {
-            console.log('The API returned an error: ' + err)
+            logger.log({
+                level: 'error',
+                message: loggingMoment().format() + ' class.date.getAllSheetNames ' + err.errors[0].message
+            });
         }
         else {
             callback(response.data.sheets);
@@ -41,7 +42,10 @@ Date.prototype.copyFromTemplateToNewSheet = function (callback) {
 
     sheets.spreadsheets.sheets.copyTo(request, function (err, response) {
         if (err) {
-            console.error(err);
+            logger.log({
+                level: 'error',
+                message: loggingMoment().format() + ' class.date.copyFromTemplateToNewSheet ' + JSON.stringify(err)
+            });
             return;
         }
         callback(response.data);
@@ -79,7 +83,12 @@ Date.prototype.updateSheetName = function(sheetObj, callback) {
     };
 
     sheets.spreadsheets.batchUpdate(request, function (err, response) {
-        if (err) { console.error(err); }
+        if (err) {
+            logger.log({
+                level: 'error',
+                message: loggingMoment().format() + ' class.date.updateSheetName ' + err.errors[0].message
+            });
+        }
         callback(response);
     });
 };

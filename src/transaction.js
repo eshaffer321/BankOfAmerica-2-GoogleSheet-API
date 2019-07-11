@@ -4,6 +4,8 @@ const {google} = require('googleapis');
 const sheets = google.sheets('v4');
 let moment = require('moment');
 let rules = require('../static/rules');
+const logger = require('./logger');
+const loggingMoment = require('moment');
 
 /** Change the category based on the regex defined in rules.json */
 async function updateCategoryFromFilePath(transactions) {
@@ -57,7 +59,10 @@ function getSpreadSheetTransactionArray(callback) {
 
     sheets.spreadsheets.values.get(request, function (err, response) {
         if (err) {
-            console.error(err);
+            logger.log({
+                level: 'error',
+                message: loggingMoment().format() + ' class.transaction.getSpreadSheetTransactionArray ' + err.errors[0].message
+            });
             return;
         }
         callback(response.data.values)
@@ -115,7 +120,10 @@ async function insertIntoGoogleSheets(transactionSpreadSheet) {
 
     sheets.spreadsheets.values.update(params, function (err, response) {
         if (err) {
-            console.error(err);
+            logger.log({
+                level: 'error',
+                message: loggingMoment().format() + ' class.transaction.insertIntoGoogleSheets ' + err.errors[0].message
+            });
             return;
         }
         console.log('Updated cells post to google api');

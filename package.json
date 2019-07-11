@@ -14,7 +14,8 @@
     "express": "^4.17.1",
     "googleapis": "^39.2.0",
     "json2csv": "^4.5.1",
-    "moment": "^2.24.0"
+    "moment": "^2.24.0",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"

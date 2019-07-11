@@ -2,3 +2,4 @@
 .idea/
 node_modules/
 auth/private.json
+*.log

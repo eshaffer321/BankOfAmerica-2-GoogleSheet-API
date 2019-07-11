@@ -3,6 +3,8 @@ let jwtClient = require('../auth/auth');
 const {google} = require('googleapis');
 const sheets = google.sheets('v4');
 let moment = require('moment');
+const logger = require('./logger');
+const loggingMoment = require('moment');
 
 module.exports = function(income) {
     module.insertSingleIncome = async function() {
@@ -76,7 +78,10 @@ module.exports = function(income) {
 
         sheets.spreadsheets.values.get(request, function (err, response) {
             if (err) {
-                console.error(err);
+                logger.log({
+                    level: 'error',
+                    message: loggingMoment().format() + ' class.income.getIncomeCells ' + err.errors[0].message
+                });
                 return;
             }
             callback(response.data.values);
@@ -96,7 +101,10 @@ module.exports = function(income) {
 
         sheets.spreadsheets.values.update(params, function (err, response) {
             if (err) {
-                console.error(err);
+                logger.log({
+                    level: 'error',
+                    message: loggingMoment().format() + ' class.income.updateIncomeCells ' + err.errors[0].message
+                });
                 return;
             }
             callback(response);

@@ -3,6 +3,8 @@ const jwtClient = require('../auth/auth.js');
 const {google} = require('googleapis');
 const sheets = google.sheets('v4');
 const currency = require('../static/currency');
+const logger = require('./logger');
+const loggingMoment = require('moment');
 
 function Balance() {}
 
@@ -16,7 +18,10 @@ Balance.prototype.updateAccountBalance = async function (account_list, sheet_nam
 
     sheets.spreadsheets.values.get(request, function (err, response) {
         if (err) {
-            console.error(err);
+            logger.log({
+                level: 'error',
+                message: loggingMoment().format() + ' class.balance.updateAccountBalance ' + err.errors[0].message
+            });
             return;
         }
 
@@ -36,7 +41,10 @@ Balance.prototype.updateAccountBalance = async function (account_list, sheet_nam
 
         sheets.spreadsheets.values.update(params, function (err, response) {
             if (err) {
-                console.error(err);
+                logger.log({
+                    level: 'error',
+                    message: loggingMoment().format() + ' class.balance.updateAccountBalance.update ' + err.errors[0].message
+                });
                 return;
             }
         });
