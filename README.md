@@ -1,18 +1,34 @@
-# Bank Of America Spreadsheet API
+# Bank Of America Google Spreadsheet API
 [![CircleCI](https://circleci.com/gh/eshaffer321/boa-spreadsheet-api.svg?style=svg)](https://circleci.com/gh/eshaffer321/boa-spreadsheet-api)
-Bank transcation categorized and inserted into a google sheet.
+
+Bank transactions categorized automatically inserted into a [google sheet](https://docs.google.com/spreadsheets/d/14GYLeWTUBPFWYzXMAJJV4YPmwcsf6vabkQ0-CeHSqHQ/edit?usp=sharing).
 ## About
-The motivation of this api is to input bank of america transactions into a categorized google sheet. The transcations are sent from a [https://github.com/eshaffer321/boa-web-scraper](python web scraper). This api is capable of creating new sheets each month from a template and inserting transactions, account balances, and income. 
+The motivation behind this project is that my spouse and I have different bank accounts. I wanted to centralize our 
+bank transactions into a single google sheet. However, I don't like spending time manually inserting
+transactions into the sheet. So I created an automated way to centralize multiple bank accounts into one sheet.
+
+
+In addition, I wanted to have the transactions be categorized. Bank of America has categorization but often times they 
+don't put transactions into categories that I want. For example, if I go to a winery that would fall under entertainment
+while Bank of America says it's groceries. So this system let's custom rules be implemented to re-categorize transactions.
+
+
+The transaction are sent from a [python web scraper](https://github.com/eshaffer321/boa-web-scraper). 
+This api is capable of creating new sheets each month from a template and inserting transactions, account balances, 
+and income. 
 
 ## Getting Started
 Start the project by running:
 ```
 npm install
 ```
-You will need a google service account with an authorization json file placed in `auth/private.json` This service account must be granted access to the spreadsheet for it to edit.
+You will need a google service account with an authorization json file placed in `auth/private.json` 
+This service account must be granted access to the spreadsheet for it to edit.
 
 ## Environment Variables
-This project uses a `.env` file for environment variables. This requires a spreadsheet id which can be found in the url of a google sheet. It also requires a sheet id, which is a template sheet that will be copied each month. Here is an example of the `.env` file:
+This project uses a `.env` file for environment variables. This requires a spreadsheet id which can be found in the url 
+of a google sheet. It also requires a sheet id, which is a template sheet that will be copied each month. 
+Here is an example of the `.env` file:
 ```
 SPREADSHEET_ID=
 SHEET_ID=
@@ -20,7 +36,12 @@ PORT=3000
 NODE_ENV=
 ```
 ## How it works
-There are 2 important files that help the api insert transcation into the sheet. The first is called `rules.json`. This use regular expressions to match properties of a transcation, and recategorize based on the item. This allows custom rules to be implemented for categorizations. The second file is `ranges.json`. This defines what the column numbers are for each of the category types. 
+There are 2 important files that help the api insert transcation into the sheet. 
+The first is called [rules.json](https://github.com/eshaffer321/boa-spreadsheet-api/blob/master/static/rules.json). 
+This use regular expressions to match properties of a transaction, and re-categorize based on the item. 
+This allows custom rules to be implemented for categorizations. 
+The second file is [ranges.json](https://github.com/eshaffer321/boa-spreadsheet-api/blob/master/static/ranges.json). 
+This defines what the column numbers are for each of the category types. 
 
 # Testing
 To run the test run:
