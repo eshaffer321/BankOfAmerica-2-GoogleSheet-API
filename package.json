@@ -7,7 +7,8 @@
     "build": "babel src -d dist",
     "serve": "node lib/server.js",
     "start": "npm run build && nodemon dist/server.js",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "test-push": "jest --coverage --coverageReporters=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
