@@ -1,5 +1,6 @@
 # Bank Of America Google Spreadsheet API
 [![CircleCI](https://circleci.com/gh/eshaffer321/boa-spreadsheet-api.svg?style=svg)](https://circleci.com/gh/eshaffer321/boa-spreadsheet-api)
+[![Coverage Status](https://coveralls.io/repos/github/eshaffer321/boa-spreadsheet-api/badge.svg?branch=master)](https://coveralls.io/github/eshaffer321/boa-spreadsheet-api?branch=master)
 
 Bank transactions categorized automatically inserted into a [google sheet](https://docs.google.com/spreadsheets/d/14GYLeWTUBPFWYzXMAJJV4YPmwcsf6vabkQ0-CeHSqHQ/edit?usp=sharing).
 ## About
