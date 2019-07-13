@@ -70,88 +70,144 @@ app.get('/categories', function (req, res) {
 app.get('/transaction', async function (req, res) {
 
     req.body = [{
-        'merchant_name': 'BANK OF AMERICA',
-        'amount': '-196.45',
-        'category': 'Finance: Bank of America Credit Card Payment',
-        'date': '07/11/2019',
-        'description': 'Bank of America Credit Card Bill Payment',
+        'merchant_name': 'BKOFAMERICA ATM WITHDRWL BLOSSOM HILL CA',
+        'amount': '-20.00',
+        'category': 'Uncategorized: Pending',
+        'date': '07/12/2019',
+        'description': 'BKOFAMERICA ATM 07/12 #000002721 WITHDRWL BLOSSOM HILL-WIN SAN JOSE CA',
         'transaction_type': 'checking'
     }, {
-        'merchant_name': 'BANK OF AMERICA',
-        'amount': '-196.45',
-        'category': 'Finance: Bank of America Credit Card Payment',
-        'date': '07/08/2019',
-        'description': 'Bank of America Credit Card Bill Payment',
+        'merchant_name': 'ONLINE BANKING PAYMENT TO CRD 9415',
+        'amount': '-100.00',
+        'category': 'Uncategorized: Pending',
+        'date': '07/12/2019',
+        'description': 'Online Banking payment to CRD 9415 Confirmation# 0294063325',
+        'transaction_type': 'checking'
+    }, {
+        'merchant_name': 'Counter Credit',
+        'amount': '176.27',
+        'category': 'Income: Deposits',
+        'date': '07/12/2019',
+        'description': 'activity type deposit',
         'transaction_type': 'checking'
     }, {
         'merchant_name': 'Check',
-        'amount': '-3,495.00',
+        'amount': '-395.00',
         'category': 'Cash, Checks & Misc: Checks',
-        'date': '07/05/2019',
+        'date': '07/10/2019',
         'description': 'activity type check',
         'transaction_type': 'checking'
     }, {
-        'merchant_name': 'PACIFIC GAS AND ELECTRIC',
-        'amount': '-41.60',
-        'category': 'Home & Utilities: Utilities',
-        'date': '07/02/2019',
-        'description': 'PGANDE DES:WEB ONLINE ID:XXXXX811063019 INDN:ERICK SHAFFER CO ID:XXXXX42640 WEB',
-        'transaction_type': 'checking'
-    }, {
-        'merchant_name': 'FEDLOAN SERVICING',
-        'amount': '-4,957.54',
-        'category': 'Education: Education',
-        'date': '07/02/2019',
-        'description': 'FEDLOANSERVICING DES:STDNT LOAN ID:6NCF2VCSKB1 INDN:ERICK SHAFFER CO ID:XXXXX00802 WEB',
-        'transaction_type': 'checking'
-    }, {
-        'merchant_name': 'COMCAST',
-        'amount': '$69.16',
-        'category': 'Home & Utilities: Cable/Satellite Services',
-        'date': '07/12/2019',
-        'description': 'COMCAST CALIFORNIA 800-COMCAST CA',
-        'transaction_type': 'credit'
-    }, {
-        'merchant_name': 'SPICE KIT SAN FRANCISCO',
-        'amount': '$14.81',
-        'category': 'Restaurants & Dining: Restaurants/Dining',
-        'date': '07/12/2019',
-        'description': 'SPICE KIT SAN FRANCISCO SAN FRANCISCOCA',
-        'transaction_type': 'credit'
-    }, {
-        'merchant_name': 'PAYMENT - THANK YOU',
-        'amount': '-$196.45',
-        'category': 'Finance: Bank of America Credit Card Payment',
-        'date': '07/11/2019',
-        'description': 'PAYMENT - THANK YOU',
-        'transaction_type': 'credit'
-    }, {
-        'merchant_name': 'RIDGE VINEYARDS - MONTEB',
-        'amount': '$30.00',
-        'category': 'Groceries: Groceries',
+        'merchant_name': 'Check',
+        'amount': '-313.39',
+        'category': 'Cash, Checks & Misc: Checks',
         'date': '07/09/2019',
-        'description': 'RIDGE VINEYARDS - MONTEBCUPERTINO CA',
-        'transaction_type': 'credit'
+        'description': 'activity type check',
+        'transaction_type': 'checking'
     }, {
-        'merchant_name': 'Audible US*MH2BQ60Y2',
-        'amount': '$14.95',
-        'category': 'Shopping & Entertainment: General Merchandise',
+        'merchant_name': 'Check',
+        'amount': '-325.00',
+        'category': 'Cash, Checks & Misc: Checks',
         'date': '07/08/2019',
-        'description': 'Audible US*MH2BQ60Y2 888-283-5051 NJ',
-        'transaction_type': 'credit'
+        'description': 'activity type check',
+        'transaction_type': 'checking'
     }, {
-        'merchant_name': 'PAYMENT - THANK YOU',
-        'amount': '-$196.45',
+        'merchant_name': 'ONLINE BANKING PAYMENT TO CRD 9415',
+        'amount': '-200.00',
         'category': 'Finance: Bank of America Credit Card Payment',
-        'date': '07/06/2019',
-        'description': 'PAYMENT - THANK YOU',
-        'transaction_type': 'credit'
+        'date': '07/08/2019',
+        'description': 'Online Banking payment to CRD 9415 Confirmation# 4043160123',
+        'transaction_type': 'checking'
     }, {
-        'merchant_name': 'PIZZERIA VENTI',
-        'amount': '$122.25',
-        'category': 'Restaurants & Dining: Restaurants/Dining',
-        'date': '07/06/2019',
-        'description': 'PIZZERIA VENTI MOUNTAIN VIEWCA',
+        'merchant_name': 'VENMO',
+        'amount': '-59.00',
+        'category': 'Cash, Checks & Misc: Other Expenses',
+        'date': '07/08/2019',
+        'description': 'VENMO 07/05 PURCHASE 855-812-4430 NY',
+        'transaction_type': 'checking'
+    }, {
+        'merchant_name': 'Counter Credit',
+        'amount': '196.20',
+        'category': 'Income: Deposits',
+        'date': '07/08/2019',
+        'description': 'activity type deposit',
+        'transaction_type': 'checking'
+    }, {
+        'merchant_name': 'Counter Credit',
+        'amount': '106.25',
+        'category': 'Income: Deposits',
+        'date': '07/05/2019',
+        'description': 'activity type deposit',
+        'transaction_type': 'checking'
+    }, {
+        'merchant_name': 'Counter Credit',
+        'amount': '100.00',
+        'category': 'Income: Deposits',
+        'date': '07/03/2019',
+        'description': 'activity type deposit',
+        'transaction_type': 'checking'
+    }, {
+        'merchant_name': 'EDWARD JONES',
+        'amount': '-200.00',
+        'category': 'Savings & Transfers: Savings',
+        'date': '07/01/2019',
+        'description': 'EDWARD JONES DES:INVESTMENT ID:07218 721813321 INDN:BRITINEE DIONNE CO ID:XXXXX45811 PPD',
+        'transaction_type': 'checking'
+    }, {
+        'merchant_name': 'Check',
+        'amount': '-325.00',
+        'category': 'Cash, Checks & Misc: Checks',
+        'date': '07/01/2019',
+        'description': 'activity type check',
+        'transaction_type': 'checking'
+    }, {
+        'merchant_name': 'ONLINE BANKING PAYMENT TO CRD 9415',
+        'amount': '-600.00',
+        'category': 'Finance: Bank of America Credit Card Payment',
+        'date': '07/01/2019',
+        'description': 'Online Banking payment to CRD 9415 Confirmation# 4082177612',
+        'transaction_type': 'checking'
+    }, {
+        'merchant_name': 'VENMO',
+        'amount': '-30.29',
+        'category': 'Cash, Checks & Misc: Other Expenses',
+        'date': '07/01/2019',
+        'description': 'VENMO 06/28 PURCHASE 855-812-4430 NY',
+        'transaction_type': 'checking'
+    }, {
+        'merchant_name': 'Counter Credit',
+        'amount': '40.00',
+        'category': 'Income: Deposits',
+        'date': '07/01/2019',
+        'description': 'activity type deposit',
+        'transaction_type': 'checking'
+    }, {
+        'merchant_name': 'Counter Credit',
+        'amount': '75.00',
+        'category': 'Income: Deposits',
+        'date': '07/01/2019',
+        'description': 'activity type deposit',
+        'transaction_type': 'checking'
+    }, {
+        'merchant_name': 'Counter Credit',
+        'amount': '121.56',
+        'category': 'Income: Deposits',
+        'date': '07/01/2019',
+        'description': 'activity type deposit',
+        'transaction_type': 'checking'
+    }, {
+        'merchant_name': 'Counter Credit',
+        'amount': '470.00',
+        'category': 'Income: Deposits',
+        'date': '07/01/2019',
+        'description': 'activity type deposit',
+        'transaction_type': 'checking'
+    }, {
+        'merchant_name': 'Online payment from CHK 7',
+        'amount': '-$100.00',
+        'category': 'Finance: Bank of America Credit Card Payment',
+        'date': '07/12/2019',
+        'description': 'Online payment from CHK 7',
         'transaction_type': 'credit'
     }];
 
@@ -166,7 +222,7 @@ app.get('/transaction', async function (req, res) {
 
     let income = new Income();
 
-    await income.insertIncome(result);
+    await income.insertIncome(req.body);
 
     res.send(result);
 
