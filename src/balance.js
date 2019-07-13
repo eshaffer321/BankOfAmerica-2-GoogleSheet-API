@@ -1,71 +1,45 @@
 require('dotenv').config();
-const jwtClient = require('../auth/auth.js');
-const {google} = require('googleapis');
-const sheets = google.sheets('v4');
 const currency = require('../static/currency');
-const logger = require('./logger');
-const loggingMoment = require('moment');
 
-function Balance() {}
+import "@babel/polyfill";
+import {Google} from "./google";
 
-Balance.prototype.updateAccountBalance = async function (account_list, sheet_name) {
+export class Balance {
 
-    let request = {
-        spreadsheetId: process.env['SPREADSHEET_ID'],
-        range: sheet_name + '!A10:D15',
-        auth: jwtClient,
-    };
+    constructor() {
+        this.googleSheetsApi = new Google();
+        this.range = 'A10:D15';
+        this.className = 'balance';
+    }
 
-    sheets.spreadsheets.values.get(request, function (err, response) {
-        if (err) {
-            logger.log({
-                level: 'error',
-                message: loggingMoment().format() + ' class.balance.updateAccountBalance ' + err.errors[0].message
-            });
-            return;
-        }
-
-        let values = updateCellValues(response.data.values);
-
-        const resource = {
-            values,
-        };
+    async updateAccountBalance(accountList) {
 
         let params = {
-            spreadsheetId: process.env['SPREADSHEET_ID'],
-            range: sheet_name + '!A10:D15',
-            valueInputOption: 'USER_ENTERED',
-            auth: jwtClient,
-            resource: resource
+            range: this.range,
+            className: this.className,
+            methodName: 'updateAccountBalance',
         };
 
-        sheets.spreadsheets.values.update(params, function (err, response) {
-            if (err) {
-                logger.log({
-                    level: 'error',
-                    message: loggingMoment().format() + ' class.balance.updateAccountBalance.update ' + err.errors[0].message
-                });
-                return;
-            }
-        });
-    });
+        let data = await this.googleSheetsApi.get(params);
 
-    function updateCellValues(updatedValues) {
-        for (let i = 0; i < updatedValues.length; i++) {
-            for (let j = 0; j < account_list.length; j++) {
-                if (updatedValues[i][0] === account_list[j].name + '-' + account_list[j].account_name) {
-                    updatedValues[i][3] = account_list[j].balance;
-                    if (account_list[j].account_name === 'credit') {
-                        updatedValues[i][3] = currency(updatedValues[i][3]).multiply(-1)
+        let updatedCells = this.updateCellValues(data, accountList);
+
+        return await this.googleSheetsApi.update({req: params, data: updatedCells});
+
+    }
+
+    updateCellValues(dataFromSheet, accountList) {
+        for (let i = 0; i < dataFromSheet.length; i++) {
+            for (let j = 0; j < accountList.length; j++) {
+                if (dataFromSheet[i][0] === accountList[j].name + '-' + accountList[j].account_name) {
+                    dataFromSheet[i][3] = accountList[j].balance;
+                    if (accountList[j].account_name === 'credit') {
+                        dataFromSheet[i][3] = currency(dataFromSheet[i][3]).multiply(-1)
+                        dataFromSheet[i][3] = dataFromSheet[i][3] + ''
                     }
                 }
             }
         }
-        return updatedValues;
+        return dataFromSheet;
     }
-};
-
-Balance.prototype.updateRobinhoodBalance = async function() {};
-
-let obj = new Balance();
-module.exports = obj;
+}

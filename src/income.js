@@ -1,115 +1,81 @@
+import {Google} from "./google";
+
 require('dotenv').config();
-let jwtClient = require('../auth/auth');
-const {google} = require('googleapis');
-const sheets = google.sheets('v4');
-let moment = require('moment');
-const logger = require('./logger');
-const loggingMoment = require('moment');
 
-module.exports = function(income) {
-    module.insertSingleIncome = async function() {
-        getIncomeCells(function(incomeCells) {
-            let values = insert(income, incomeCells);
-            let resource = {values};
-            updateIncomeCells(resource, function(done) {});
-        });
-    };
+export class Income {
 
-    module.insertManyIncome = async function() {
-        let income_list = [];
+    constructor() {
+        this.googleSheetsApi = new Google();
+        this.range = 'A21:D51';
+        this.className = 'Income';
+    }
 
-        getIncomeCells(function(incomeCells) {
+    async insertIncome(transactionList) {
 
-            // Create a list that contains only income items
-            income.forEach(function(item) {
-                if (item.category === 'Income') {
-                    income_list.push(item);
-                }
-            });
+        let params = {
+            range: this.range,
+            className: this.className,
+            methodName: 'insertIncome',
+        };
 
-            // go through each income and check if it should be inserted
-            income_list.forEach(function(income) {
-                insertPossibleDuplicate(incomeCells, income);
-            });
+        let cells = await this.googleSheetsApi.get(params);
 
-            // send the updated income cells to google sheets
-            updateIncomeCells(incomeCells, function(done) {
-                console.log('done updating income cells');
-            });
-        });
+        let incomeList = this.createIncomeList(transactionList);
 
-    };
+        this.insertIncomeList(incomeList, cells);
 
-    function insertPossibleDuplicate(incomeCells, income) {
+        await this.googleSheetsApi.update({req: params, data: cells});
+    }
 
-        let unique = true;
 
-        // go through each cell row and see if income is already present
-        incomeCells.forEach(function(row) {
-            if (row[0] === income.date && row[3] !== ' ' && Math.abs(row[3]) === Math.abs(income.amount)) {
-                unique = false;
+    createIncomeList(transactionList) {
+
+        let incomeList = [];
+
+        transactionList.forEach(function(transaction) {
+            if (transaction.category === 'Income') {
+                incomeList.push(transaction);
             }
         });
 
-        if (unique) {
-            insert(income, incomeCells);
-        }
+        return incomeList;
     }
 
-    function insert(income, incomeCellList) {
+    insertIncomeList(incomeList, cells) {
+
+        let self = this;
+        incomeList.forEach(function(transaction) {
+            if (self.unique(transaction, cells)) {
+                self.insert(transaction, cells);
+            }
+        });
+
+    }
+
+    unique(transaction, cells) {
+
+        let isUnique = true;
+
+        cells.forEach(function(row) {
+            if (row[0] === transaction.date && row[3] !== ' ' && Math.abs(row[3]) === Math.abs(transaction.amount)) {
+                isUnique = false;
+            }
+        });
+
+        return isUnique;
+    }
+
+    insert(transaction, cells) {
+
         let found = 0;
-        incomeCellList.forEach(function(row) {
+        cells.forEach(function(row) {
             if (row[0] === ' ' && row[1] === ' ' && row[2] === ' ' && row[3] === ' ' && !found) {
-                row[0] = income.date;
-                row[3] = Math.abs(income.amount);
+                row[0] = transaction.date;
+                row[3] = Math.abs(transaction.amount);
                 found = 1;
             }
         });
-        return incomeCellList
+
     }
 
-    function getIncomeCells(callback) {
-        let moment = require('moment');
-        let request = {
-            spreadsheetId: process.env['SPREADSHEET_ID'],
-            range: moment().format('MM-YY') + '!' + 'A21:D51',
-            auth: jwtClient,
-        };
-
-        sheets.spreadsheets.values.get(request, function (err, response) {
-            if (err) {
-                logger.log({
-                    level: 'error',
-                    message: loggingMoment().format() + ' class.income.getIncomeCells ' + err.errors[0].message
-                });
-                return;
-            }
-            callback(response.data.values);
-        });
-    }
-
-    function updateIncomeCells(values, callback) {
-
-        let resource = {values};
-        let params = {
-            spreadsheetId: process.env['SPREADSHEET_ID'],
-            range: moment().format('MM-YY') + '!' + 'A21:D51',
-            valueInputOption: 'USER_ENTERED',
-            auth: jwtClient,
-            resource: resource
-        };
-
-        sheets.spreadsheets.values.update(params, function (err, response) {
-            if (err) {
-                logger.log({
-                    level: 'error',
-                    message: loggingMoment().format() + ' class.income.updateIncomeCells ' + err.errors[0].message
-                });
-                return;
-            }
-            callback(response);
-        });
-    }
-
-    return module;
-};
+}

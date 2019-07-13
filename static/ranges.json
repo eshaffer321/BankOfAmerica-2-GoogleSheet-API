@@ -1,53 +1,70 @@
 {
   "Groceries": {
-    "range": "F:H"
+    "range": "F:H",
+    "column": 0
   },
   "Rent": {
-    "range": "I:K"
+    "range": "I:K",
+    "column": 3
   },
   "Entertainment": {
-    "range": "L:N"
+    "range": "L:N",
+    "column": 6
   },
   "Phones": {
-    "range": "O:Q"
+    "range": "O:Q",
+    "column": 9
   },
   "Utilities": {
-    "range": "R:T"
+    "range": "R:T",
+    "column": 12
   },
   "Gym": {
-    "range": "U:W"
+    "range": "U:W",
+    "column": 15
   },
   "Clothing": {
-    "range": "XZ"
+    "range": "XZ",
+    "column": 18
   },
   "Restaurants & Dining": {
-    "range": "AA:AC"
+    "range": "AA:AC",
+    "column": 21
   },
   "Investments": {
-    "range": "AD:AF"
+    "range": "AD:AF",
+    "column": 24
   },
   "Work Expenses": {
-    "range": "AG:AI"
+    "range": "AG:AI",
+    "column": 27
   },
   "Subscriptions": {
-    "range": "AJ:AL"
+    "range": "AJ:AL",
+    "column": 30
   },
   "Transportation": {
-    "range": "AM:AO"
+    "range": "AM:AO",
+    "column": 33
   },
   "Personal": {
-    "range": "AP:AR"
+    "range": "AP:AR",
+    "column": 36
   },
   "Travel": {
-    "range": "AS:AU"
+    "range": "AS:AU",
+    "column": 39
   },
   "Student Loans": {
-    "range": "AV:AX"
+    "range": "AV:AX",
+    "column": 42
   },
   "Home": {
-    "range": "AY:BA"
+    "range": "AY:BA",
+    "column": 45
   },
   "Other": {
-    "range": "BB:BD"
+    "range": "BB:BD",
+    "column": 48
   }
 }

@@ -2,22 +2,40 @@
   "name": "spreadsheet",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "src/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel src -d dist",
+    "serve": "node lib/server.js",
+    "start": "npm run build && nodemon dist/server.js",
+    "test": "jest --coverage"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eshaffer321/boa-spreadsheet-api.git"
+  },
+  "author": "Erick Shaffer",
   "license": "ISC",
   "dependencies": {
+    "@babel/polyfill": "^7.4.4",
+    "body-parser": "^1.19.0",
     "csvtojson": "^2.0.10",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "googleapis": "^39.2.0",
     "json2csv": "^4.5.1",
     "moment": "^2.24.0",
+    "node-fetch": "^2.6.0",
+    "regenerator-runtime": "^0.13.2",
+    "webpack": "^4.35.3",
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "nodemon": "^1.19.1"
+    "@babel/cli": "^7.5.0",
+    "@babel/core": "^7.5.4",
+    "@babel/preset-env": "^7.5.4",
+    "jest": "^24.8.0",
+    "nodemon": "^1.19.1",
+    "superagent": "^5.1.0",
+    "supertest": "^4.0.2"
   }
 }

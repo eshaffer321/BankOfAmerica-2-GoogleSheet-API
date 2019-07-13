@@ -279,15 +279,6 @@
     }
   },
   {
-    "expression": "-3,495.00",
-    "properties_to_match": [
-      "merchant_name"
-    ],
-    "updated_values": {
-      "category": "Student Loans"
-    }
-  },
-  {
     "expression": "TJ MAXX",
     "properties_to_match": [
       "merchant_name"
@@ -339,6 +330,15 @@
     ],
     "updated_values": {
       "category": "Home"
+    }
+  },
+  {
+    "expression": "VINEYARDS",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Entertainment"
     }
   }
 ]

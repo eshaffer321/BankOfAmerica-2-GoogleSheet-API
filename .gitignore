@@ -3,3 +3,7 @@
 node_modules/
 auth/private.json
 *.log
+lib/
+dist/
+*/private.json
+coverage/
