@@ -2,11 +2,17 @@ const {google} = require('googleapis');
 const sheets = google.sheets('v4');
 const jwtClient = require('./auth.js');
 const moment = require('moment');
-const logger = require('./logger');
+import {Logger} from "./logger";
 
 export class Google {
 
+    constructor() {
+        this.logger = new Logger();
+    }
+
     async get(params) {
+
+        let self = this;
 
         let request = {
             spreadsheetId: process.env['SPREADSHEET_ID'],
@@ -17,11 +23,10 @@ export class Google {
         return new Promise(function(resolve, reject){
             sheets.spreadsheets.values.get(request, function (err, response) {
                 if (err) {
-                    console.log(err);
-                    logger.log({
+                    self.logger.log({
                         level: 'error',
                         message: moment().format() + ' class.' + params.className + '.'
-                            + params.methodName + ' ' + err.errors[0].message
+                            + params.methodName + ' ' + err
                     });
                     reject(err);
                     return err;
@@ -33,6 +38,9 @@ export class Google {
     }
 
     async update(params) {
+
+        let self = this;
+
         let moment = require('moment');
 
         let values = params.data;
@@ -53,10 +61,10 @@ export class Google {
             sheets.spreadsheets.values.update(request, function (err, response) {
 
                 if (err) {
-                    logger.log({
+                    self.logger.log({
                         level: 'error',
                         message: moment().format() + ' class.' + params.req.className +
-                            '.' + params.req.methodName + ' ' + err.errors[0].message
+                            '.' + params.req.methodName + ' ' + err
                     });
                     reject(err);
                     return err;
@@ -70,6 +78,8 @@ export class Google {
 
     async getSheets(params) {
 
+        let self = this;
+
         return new Promise(function(resolve, reject){
             sheets.spreadsheets.get({
                 auth: jwtClient,
@@ -77,9 +87,9 @@ export class Google {
             }, function (err, response) {
 
                 if (err) {
-                    logger.log({
+                    self.logger.log({
                         level: 'error',
-                        message: logger().format() + ' class.date.getAllSheetNames ' + err.errors[0].message
+                        message: moment().format() + ' class.date.getAllSheetNames ' + err
                     });
                     reject(err);
                     return err;
@@ -89,13 +99,17 @@ export class Google {
                     resolve(response.data.sheets);
                 }
             });
+
         });
 
     }
 
     async copyTo(params) {
 
+        let self = this;
+
         return new Promise(function(resolve, reject){
+
             let request = {
                 spreadsheetId: process.env['SPREADSHEET_ID'],
                 sheetId: process.env['SHEET_ID'],
@@ -104,24 +118,29 @@ export class Google {
                 },
                 auth: jwtClient,
             };
+
             sheets.spreadsheets.sheets.copyTo(request, function (err, response) {
                 if (err) {
-                    logger.log({
+                    self.logger.log({
                         level: 'error',
-                        message: logging().format() + ' class.date.copyFromTemplateToNewSheet ' + JSON.stringify(err)
+                        message: moment().format() + ' class.date.copyFromTemplateToNewSheet ' + JSON.stringify(err)
                     });
                     reject(err);
                     return err;
                 }
                 resolve(response.data);
             });
+
         });
 
     }
 
     async batchUpdate(params) {
 
+        let self = this;
+
         return new Promise(function(resolve, reject){
+
             let request = {
                 spreadsheetId: process.env['SPREADSHEET_ID'],
                 resource: {
@@ -142,15 +161,16 @@ export class Google {
 
             sheets.spreadsheets.batchUpdate(request, function (err, response) {
                 if (err) {
-                    logger.log({
+                    self.logger.log({
                         level: 'error',
-                        message: logger().format() + ' class.date.updateSheetName ' + err.errors[0].message
+                        message: moment().format() + ' class.date.updateSheetName ' + err
                     });
                     reject(err);
                 }
                 resolve(response);
                 return err;
             });
+
         });
 
     }
