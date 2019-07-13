@@ -1,10 +1,9 @@
 let {google} = require('googleapis');
-let private_key = require("./private.json");
 
 let jwtClient = new google.auth.JWT(
-    private_key.client_email,
+    process.env['CLIENT_EMAIL'],
     null,
-    private_key.private_key,
+    process.env['PRIVATE_KEY'],
     ['https://www.googleapis.com/auth/spreadsheets']
 );
 

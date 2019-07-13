@@ -1,5 +1,6 @@
 # Bank Of America Google Spreadsheet API
 [![CircleCI](https://circleci.com/gh/eshaffer321/boa-spreadsheet-api.svg?style=svg)](https://circleci.com/gh/eshaffer321/boa-spreadsheet-api)
+[![Coverage Status](https://coveralls.io/repos/github/eshaffer321/boa-spreadsheet-api/badge.svg?branch=master)](https://coveralls.io/github/eshaffer321/boa-spreadsheet-api?branch=master)
 
 Bank transactions categorized automatically inserted into a [google sheet](https://docs.google.com/spreadsheets/d/14GYLeWTUBPFWYzXMAJJV4YPmwcsf6vabkQ0-CeHSqHQ/edit?usp=sharing).
 ## About
@@ -22,7 +23,7 @@ Start the project by running:
 ```
 npm install
 ```
-You will need a google service account with an authorization json file placed in `auth/private.json` 
+You will need a google service account with an authorization the private key in email must be placed in the `.env` file.
 This service account must be granted access to the spreadsheet for it to edit.
 
 ## Environment Variables
@@ -32,8 +33,10 @@ Here is an example of the `.env` file:
 ```
 SPREADSHEET_ID=
 SHEET_ID=
-PORT=3000
+PORT=
 NODE_ENV=
+CLIENT_EMAIL=
+PRIVATE_KEY=
 ```
 ## How it works
 There are 2 important files that help the api insert transcation into the sheet. 

@@ -1,6 +1,6 @@
 const {google} = require('googleapis');
 const sheets = google.sheets('v4');
-const jwtClient = require('./auth/auth.js');
+const jwtClient = require('./auth.js');
 const moment = require('moment');
 const logger = require('./logger');
 
