@@ -6,3 +6,8 @@ lib/
 dist/
 */private.json
 coverage/
+tfplan
+*.pem
+.terraform/
+terraform.tfstate
+terraform.tfstate.*

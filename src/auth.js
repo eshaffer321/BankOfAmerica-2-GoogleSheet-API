@@ -9,7 +9,9 @@ let jwtClient = new google.auth.JWT(
     ['https://www.googleapis.com/auth/spreadsheets']
 );
 
-jwtClient.key = process.env['PRIVATE_KEY'];
+let regex = new RegExp('\\\\n', "g");
+
+jwtClient.key = process.env['PRIVATE_KEY'].replace(regex, '\n');
 jwtClient.scopes = ['https://www.googleapis.com/auth/spreadsheets'];
 
 module.exports = jwtClient;
