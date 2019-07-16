@@ -1,22 +1,25 @@
-const winston = require('winston');
+const {transports, createLogger, format} = require('winston');
 
 export class Logger {
 
     constructor() {
 
-        this.logger = winston.createLogger({
+        this.logger = createLogger({
             level: 'info',
-            format: winston.format.json(),
+            format: format.combine(
+                format.json(),
+                format.timestamp()
+            ),
             defaultMeta: { service: 'boa-spreadsheet-api' },
             transports: [
-                new winston.transports.File({ filename: 'error.log', level: 'error' }),
-                new winston.transports.File({ filename: 'combined.log' })
+                new transports.File({ filename: 'logs/error.log', level: 'error' }),
+                new transports.File({ filename: 'logs/combined.log' })
             ]
         });
 
         if (process.env.NODE_ENV !== 'production') {
-            this.logger.add(new winston.transports.Console({
-                format: winston.format.simple()
+            this.logger.add(new transports.Console({
+                format: format.simple()
             }));
         }
 

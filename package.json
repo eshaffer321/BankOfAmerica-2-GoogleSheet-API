@@ -17,7 +17,6 @@
   "author": "Erick Shaffer",
   "license": "ISC",
   "dependencies": {
-    "lodash": ">=4.17.13",
     "@babel/polyfill": "^7.4.4",
     "body-parser": "^1.19.0",
     "csvtojson": "^2.0.10",
@@ -25,11 +24,13 @@
     "express": "^4.17.1",
     "googleapis": "^39.2.0",
     "json2csv": "^4.5.1",
+    "lodash": ">=4.17.13",
     "moment": "^2.24.0",
     "node-fetch": "^2.6.0",
     "regenerator-runtime": "^0.13.2",
     "webpack": "^4.35.3",
-    "winston": "^3.2.1"
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^3.10.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.0",

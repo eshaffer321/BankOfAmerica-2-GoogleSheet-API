@@ -17,7 +17,8 @@ RUN npm run build
 
 CMD pm2-runtime dist/server.js
 
-#docker run --env SPREADSHEET_ID=$SPREADSHEET_ID \
+#docker run -p 80:80 -d \
+#           --env SPREADSHEET_ID=$SPREADSHEET_ID \
 #           --env CLIENT_EMAIL=$CLIENT_EMAIL \
 #           --env SHEET_ID=$SHEET_ID \
-#           --env PRIVATE_KEY=$PRIVATE_KEY boa-api:1.0.0
+#           --env PRIVATE_KEY=$PRIVATE_KEY erickshaffer/boa-spreadsheet-api:1.0.0
