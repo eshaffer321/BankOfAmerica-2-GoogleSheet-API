@@ -1,8 +1,18 @@
 const {transports, createLogger, format} = require('winston');
+require('winston-daily-rotate-file');
+let moment = require('moment');
 
 export class Logger {
 
     constructor() {
+
+        let transport = new (transports.DailyRotateFile)({
+            filename: 'boa-api.log',
+            dirname: 'logs',
+            zippedArchive: true,
+            maxSize: '20m',
+            maxFiles: '1m',
+        });
 
         this.logger = createLogger({
             level: 'info',
@@ -10,10 +20,10 @@ export class Logger {
                 format.json(),
                 format.timestamp()
             ),
-            defaultMeta: { service: 'boa-spreadsheet-api' },
+            defaultMeta: { service: 'boa-spreadsheet-api',
+                           timestamp: moment().format()},
             transports: [
-                new transports.File({ filename: 'logs/error.log', level: 'error' }),
-                new transports.File({ filename: 'logs/combined.log' })
+                transport
             ]
         });
 

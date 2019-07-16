@@ -18,7 +18,7 @@ app.post('/update-balance', async function (req, res) {
 
     logger.log({
         level: 'info',
-        message: moment().format() + ' server.endpoint.post.update-balance ' + JSON.stringify(req.body)
+        message: 'server.endpoint.post.update-balance ' + JSON.stringify(req.body)
     });
 
     let balance = new Balance();
@@ -32,7 +32,7 @@ app.get('/update-date', async function (req, res) {
 
     logger.log({
         level: 'info',
-        message: moment().format() + ' server.endpoint.get.update-date'
+        message: 'server.endpoint.get.update-date'
     });
 
     let date = new Date();
@@ -47,7 +47,7 @@ app.get('/date', async function (req, res) {
 
     logger.log({
         level: 'info',
-        message: moment().format() + ' server.endpoint.get.date'
+        message: 'server.endpoint.get.date'
     });
 
     res.send(moment().format('MM-YY'))
@@ -57,7 +57,7 @@ app.get('/categories', function (req, res) {
 
     logger.log({
         level: 'info',
-        message: moment().format() + ' server.endpoint.get.categories'
+        message: 'server.endpoint.get.categories'
     });
 
     let s = require('../static/ranges');
@@ -71,7 +71,7 @@ app.get('/transaction', async function (req, res) {
 
     logger.log({
         level: 'info',
-        message: moment().format() + ' server.endpoint.post.transactions'
+        message: 'server.endpoint.post.transactions'
     });
 
     let transaction = new Transaction();
@@ -90,7 +90,7 @@ app.post('/income', async function (req, res) {
 
     logger.log({
         level: 'info',
-        message: moment().format() + ' server.endpoint.post.income'
+        message: 'server.endpoint.post.income'
     });
 
     let income = new Income();

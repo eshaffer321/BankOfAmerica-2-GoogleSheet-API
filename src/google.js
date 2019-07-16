@@ -25,7 +25,7 @@ export class Google {
                 if (err) {
                     self.logger.log({
                         level: 'error',
-                        message: moment().format() + ' class.' + params.className + '.'
+                        message: 'class.' + params.className + '.'
                             + params.methodName + ' ' + err
                     });
                     reject(err);
@@ -63,8 +63,8 @@ export class Google {
                 if (err) {
                     self.logger.log({
                         level: 'error',
-                        message: moment().format() + ' class.' + params.req.className +
-                            '.' + params.req.methodName + ' ' + err
+                        message: 'class.' + params.req.className +
+                            '.' + params.req.methodName + ' ' + JSON.stringify(err)
                     });
                     reject(err);
                     return err;
@@ -89,7 +89,7 @@ export class Google {
                 if (err) {
                     self.logger.log({
                         level: 'error',
-                        message: moment().format() + ' class.date.getAllSheetNames ' + err
+                        message: 'class.date.getAllSheetNames ' + JSON.stringify(err)
                     });
                     reject(err);
                     return err;
@@ -123,7 +123,7 @@ export class Google {
                 if (err) {
                     self.logger.log({
                         level: 'error',
-                        message: moment().format() + ' class.date.copyFromTemplateToNewSheet ' + JSON.stringify(err)
+                        message: 'class.date.copyFromTemplateToNewSheet ' + JSON.stringify(err)
                     });
                     reject(err);
                     return err;
@@ -163,7 +163,7 @@ export class Google {
                 if (err) {
                     self.logger.log({
                         level: 'error',
-                        message: moment().format() + ' class.date.updateSheetName ' + err
+                        message: 'class.date.updateSheetName ' + JSON.stringify(err)
                     });
                     reject(err);
                 }
