@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
-sudo apt-get install curl python-software-properties -y
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-sudo apt-get install nodejs -y
+sudo apt-get update
+sudo apt install docker.io
+sudo systemctl start docker
+sudo systemctl enable docker

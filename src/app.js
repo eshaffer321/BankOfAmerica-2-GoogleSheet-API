@@ -67,7 +67,7 @@ app.get('/categories', function (req, res) {
     res.send(keys)
 });
 
-app.get('/transaction', async function (req, res) {
+app.post('/transaction', async function (req, res) {
 
     logger.log({
         level: 'info',
