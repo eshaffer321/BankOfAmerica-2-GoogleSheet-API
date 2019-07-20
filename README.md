@@ -12,24 +12,36 @@ transactions into the sheet. So I created an automated way to centralize multipl
 
 In addition, I wanted to have the transactions be categorized. Bank of America has categorization but often times they 
 don't put transactions into categories that I want. For example, if I go to a winery that would fall under entertainment
-while Bank of America says it's groceries. So this system let's custom rules be implemented to re-categorize transactions.
+while Bank of America categorizes it as groceries. To solve that, this service allows custom rules be implemented to re-categorize transactions.
 
 
-The transaction are sent from a [python web scraper](https://github.com/eshaffer321/boa-web-scraper). 
-This api is capable of creating new sheets each month from a template and inserting transactions, account balances, 
-and income. 
+The transaction are screen scraped from a [python web scraper](https://github.com/eshaffer321/boa-web-scraper). 
+The gathered transactions are sent via RESTful calls to this service, which then re-categorizes and inserts them into a google spread sheet.
 
 ## Getting Started
+
 Start the project by running:
+### Running locally
 ```
 npm install
 ```
-You will need a google service account with an authorization the private key in email must be placed in the `.env` file.
-This service account must be granted access to the spreadsheet for it to edit.
+You will need a google service account with correct IAM policies for accesing google sheets api. The private key and email from the google provided `credentials.json` must be placed in the `.env` file. Additionally, the service account email must be granted access to the spreadsheet.
+
+### Running with Docker
+Use the following command to start a docker container with the latest image. Please make sure that all the following environment variables are set in your shell before running.
+```
+sudo docker run --name=boa-api -p 80:80 -d \
+           -v ~/boa-api/logs:/app/logs \
+           --env PRIVATE_KEY="${PRIVATE_KEY}" \
+           --env SPREADSHEET_ID="${SPREADSHEET_ID}" \
+           --env CLIENT_EMAIL="${CLIENT_EMAIL}" \
+           --env SHEET_ID="${SHEET_ID}" \
+            erickshaffer/boa-spreadsheet-api:latest
+```
 
 ## Environment Variables
-This project uses a `.env` file for environment variables. This requires a spreadsheet id which can be found in the url 
-of a google sheet. It also requires a sheet id, which is a template sheet that will be copied each month. 
+This project uses a `.env` file for environment variables. This requires a spreadsheet id, which can be found in the url 
+of a your google sheet. It also requires a sheet id, which is a template sheet that will be copied each month. The template sheet ID can be can be found by using the [google sheets api](https://developers.google.com/sheets/api/reference/rest/).
 Here is an example of the `.env` file:
 ```
 SPREADSHEET_ID=
@@ -40,15 +52,52 @@ CLIENT_EMAIL=
 PRIVATE_KEY=
 ```
 ## How it works
-There are 2 important files that help the api insert transcation into the sheet. 
-The first is called [rules.json](https://github.com/eshaffer321/boa-spreadsheet-api/blob/master/static/rules.json). 
-This use regular expressions to match properties of a transaction, and re-categorize based on the item. 
-This allows custom rules to be implemented for categorizations. 
-The second file is [ranges.json](https://github.com/eshaffer321/boa-spreadsheet-api/blob/master/static/ranges.json). 
-This defines what the column numbers are for each of the category types. 
+There are 2 important files that allow the service to correctly insert transcation into the sheet. 
+The first is [rules.json](https://github.com/eshaffer321/boa-spreadsheet-api/blob/master/static/rules.json).
+This use regular expressions to match properties of a transaction, and re-categorize based on the item. Here is an example of a rule that would re-categorize an item that matched the pattern /VINEYARD/ to groceries. 
+
+```
+{
+    "expression": "VINEYARDS",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Entertainment"
+    }
+  }
+```
+
+It is possible to use values to recategorize transactions.
+```
+{
+    "expression": "59.00",
+    "properties_to_match": [
+      "amount"
+    ],
+    "updated_values": {
+      "category": "Phones"
+    }
+  },
+  ```
+  
+The rules are evaluated sequentially. The last matching expression is the one that will be used on the transaction. 
+
+
+The second important file is [ranges.json](https://github.com/eshaffer321/boa-spreadsheet-api/blob/master/static/ranges.json). 
+This defines what the column numbers are for each of the category types. This maps a name to a column number. This column number is the left most column of the 3 merged cells. This is where you could change the column layout, and include new columns.
+
+The ranges for which for which cells are pulled from the api are located in the class constructor. To adjust what ranges are used, make changes here.
+```
+export class Balance {
+    constructor() {
+        this.range = 'A10:D15';
+    }
+}
+```
 
 # Testing
-To run the test run:
+To run the test:
 ```
 npm test
 ```
