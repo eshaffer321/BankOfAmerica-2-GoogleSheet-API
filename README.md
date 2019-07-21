@@ -1,5 +1,5 @@
 # Bank Of America to Google Spreadsheet - Web Server
-[![CircleCI](https://circleci.com/gh/eshaffer321/boa-spreadsheet-api.svg?style=svg)](https://circleci.com/gh/eshaffer321/boa-spreadsheet-api)
+[![CircleCI](https://circleci.com/gh/eshaffer321/BankOfAmerica-2-GoogleSheet-API.svg?style=svg)](https://circleci.com/gh/eshaffer321/BankOfAmerica-2-GoogleSheet-API)
 [![Coverage Status](https://coveralls.io/repos/github/eshaffer321/boa-spreadsheet-api/badge.svg?branch=master)](https://coveralls.io/github/eshaffer321/boa-spreadsheet-api?branch=master)
 ![Docker Pulls](https://img.shields.io/docker/pulls/erickshaffer/boa-spreadsheet-api.svg)
 
