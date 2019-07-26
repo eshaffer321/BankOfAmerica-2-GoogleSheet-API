@@ -10,7 +10,7 @@ module.exports = [{
     'amount': '-200.00',
     'category': 'Finance: Bank of America Credit Card Payment',
     'date': '07/08/2019',
-    'description': 'Online Banking payment to CRD 9415 Confirmation# 4043160123',
+    'description': 'Online Banking payment to CRD 1234 Confirmation# 4053460123',
     'transaction_type': 'checking'
 }, {
     'merchant_name': 'VENMO',
@@ -31,7 +31,7 @@ module.exports = [{
     'amount': '-200.00',
     'category': 'Savings & Transfers: Savings',
     'date': '07/01/2019',
-    'description': 'EDWARD JONES DES:INVESTMENT ID:07218 721813321 INDN:BRITINEE DIONNE CO ID:XXXXX45811 PPD',
+    'description': 'EDWARD JONES DES:INVESTMENT ID:012345 1234567 INDN:JANE DOE CO ID:XXXXXXXXX PPD',
     'transaction_type': 'checking'
 }, {
     'merchant_name': 'VENMO',
@@ -52,7 +52,7 @@ module.exports = [{
     'amount': '$46.38',
     'category': 'Transportation: Gasoline/Fuel',
     'date': '07/06/2019',
-    'description': '76 - DBA T.B.D.J INC CUPERTINO CA',
+    'description': '76 - DBA T.B.D.J INC NEW YORK NY',
     'transaction_type': 'credit'
 }, {
     'merchant_name': 'SUR LA TABLE',
@@ -66,7 +66,7 @@ module.exports = [{
     'amount': '$176.48',
     'category': 'Shopping & Entertainment: Clothing/Shoes',
     'date': '07/03/2019',
-    'description': 'TJMAXX #0628 CUPERTINO CA',
+    'description': 'TJMAXX #0628 FUNLAND CA',
     'transaction_type': 'credit'
 }];
 

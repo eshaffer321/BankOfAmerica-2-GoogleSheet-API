@@ -117,6 +117,15 @@
     }
   },
   {
+    "expression": "YMCA",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Gym"
+    }
+  },
+  {
     "expression": "COSMOPROF",
     "properties_to_match": [
       "merchant_name"

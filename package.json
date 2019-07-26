@@ -7,7 +7,7 @@
     "build": "babel src -d dist",
     "serve": "node lib/server.js",
     "start": "npm run build && nodemon dist/server.js",
-    "test": "jest --coverage",
+    "test": "jest --coverage --testPathIgnorePatterns google*",
     "test-push": "jest --coverage --coverageReporters=text-lcov | coveralls"
   },
   "repository": {
@@ -20,6 +20,7 @@
     "@babel/polyfill": "^7.4.4",
     "body-parser": "^1.19.0",
     "csvtojson": "^2.0.10",
+    "currency.js": "^1.2.2",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "googleapis": "^39.2.0",

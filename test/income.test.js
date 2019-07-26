@@ -24,7 +24,7 @@ describe('Income Class', () => {
                 'amount': '-200.00',
                 'category': 'Savings & Transfers: Savings',
                 'date': '07/01/2019',
-                'description': 'EDWARD JONES DES:INVESTMENT ID:07218 721813321 INDN:BRITINEE DIONNE CO ID:XXXXX45811 PPD',
+                'description': 'EDWARD JONES DES:INVESTMENT ID:12345 721813321 INDN:JANE DOE CO ID:XXXXX45811 PPD',
                 'transaction_type': 'checking'
             }, {
                 'merchant_name': 'VENMO',

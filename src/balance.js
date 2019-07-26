@@ -1,5 +1,5 @@
 require('dotenv').config();
-const currency = require('../static/currency');
+const currency = require('currency.js');
 
 import "@babel/polyfill";
 import {Google} from "./google";

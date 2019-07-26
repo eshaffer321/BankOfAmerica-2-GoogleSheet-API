@@ -28,7 +28,7 @@ describe('Transaction Class', () => {
                 'amount': '-200.00',
                 'category': 'Savings & Transfers: Savings',
                 'date': '07/20/2019',
-                'description': 'EDWARD JONES DES:INVESTMENT ID:07218 721813321 INDN:BRITINEE DIONNE CO ID:XXXXX45811 PPD',
+                'description': 'EDWARD JONES DES:INVESTMENT ID:43434 721813321 INDN:JANE DOE CO ID:XXXXX11111 PPD',
                 'transaction_type': 'checking'
             }, {
                 'merchant_name': 'VENMO',
@@ -49,7 +49,7 @@ describe('Transaction Class', () => {
                 'amount': '$46.38',
                 'category': 'Transportation: Gasoline/Fuel',
                 'date': '07/06/2019',
-                'description': '76 - DBA T.B.D.J INC CUPERTINO CA',
+                'description': '76 - DBA T.B.D.J INC NEW YORK CA',
                 'transaction_type': 'credit'
             }, {
                 'merchant_name': 'SUR LA TABLE',
@@ -63,7 +63,7 @@ describe('Transaction Class', () => {
                 'amount': '$176.48',
                 'category': 'Shopping & Entertainment: Clothing/Shoes',
                 'date': '07/03/2019',
-                'description': 'TJMAXX #0628 CUPERTINO CA',
+                'description': 'TJMAXX #0628 NEW YORK CA',
                 'transaction_type': 'credit'
             }];
 
@@ -86,7 +86,7 @@ describe('Transaction Class', () => {
                 'amount': 200.00,
                 'category': 'Investments',
                 'date': '07/20/2019',
-                'description': 'EDWARD JONES DES:INVESTMENT ID:07218 721813321 INDN:BRITINEE DIONNE CO ID:XXXXX45811 PPD',
+                'description': 'EDWARD JONES DES:INVESTMENT ID:12345 721813321 INDN:JANE DOE CO ID:XXXXX44444 PPD',
                 'transaction_type': 'checking',
                 columnNumber: 24
             }, {
@@ -110,7 +110,7 @@ describe('Transaction Class', () => {
                 'amount': 46.38,
                 'category': 'Transportation',
                 'date': '07/06/2019',
-                'description': '76 - DBA T.B.D.J INC CUPERTINO CA',
+                'description': '76 - DBA T.B.D.J INC NEW YORK CA',
                 'transaction_type': 'credit',
                 columnNumber: 33
             }, {
@@ -126,9 +126,18 @@ describe('Transaction Class', () => {
                 'amount': 176.48,
                 'category': 'Home',
                 'date': '07/13/2019',
-                'description': 'TJMAXX #0628 CUPERTINO CA',
+                'description': 'TJMAXX #0628 NEW YORK CA',
                 'transaction_type': 'credit',
                 columnNumber: 45
+            },
+            {
+                'merchant_name': 'YMCA',
+                'amount': 79.00,
+                'category': 'Gym',
+                'date': '07/13/2019',
+                'description': 'YMCA NEW YORK CA',
+                'transaction_type': 'credit',
+                columnNumber: 15
             }];
 
             let transaction = new Transaction();
@@ -143,6 +152,7 @@ describe('Transaction Class', () => {
             expect(transaction.uniqueTransaction(newTransactions[3], cells)).toEqual(false);
             expect(transaction.uniqueTransaction(newTransactions[4], cells)).toEqual(false);
             expect(transaction.uniqueTransaction(newTransactions[5], cells)).toEqual(false);
+            expect(transaction.uniqueTransaction(newTransactions[6], cells)).toEqual(false);
 
         });
 
@@ -176,7 +186,7 @@ describe('Transaction Class', () => {
                     amount: '$30.00',
                     category: 'Entertainment',
                     date: '07/09/2019',
-                    description: 'RIDGE VINEYARDS - MONTEBCUPERTINO CA',
+                    description: 'RIDGE VINEYARDS - MONTEBNEW YORK CA',
                     transaction_type: 'credit'
                 },
                 {
@@ -194,6 +204,14 @@ describe('Transaction Class', () => {
                     date: '07/06/2019',
                     description: 'PIZZERIA VENTI MOUNTAIN VIEWCA',
                     transaction_type: 'credit'
+                },
+                {
+                    merchant_name: 'YMCA',
+                    amount: '$79.00',
+                    category: 'Gym',
+                    date: '07/23/2019',
+                    description: 'YMCA SILICON VALLEY-AO DR408-3516473 CA',
+                    transaction_type: 'credit'
                 }];
 
             let transaction = new Transaction();
@@ -205,6 +223,7 @@ describe('Transaction Class', () => {
             expect(categorizedTransactions[2].columnNumber).toEqual(6);
             expect(categorizedTransactions[3].columnNumber).toEqual(30);
             expect(categorizedTransactions[4].columnNumber).toEqual(21);
+            expect(categorizedTransactions[5].columnNumber).toEqual(15);
 
         });
 

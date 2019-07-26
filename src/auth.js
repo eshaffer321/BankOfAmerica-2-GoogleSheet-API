@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 let {google} = require('googleapis');
 
 let jwtClient = new google.auth.JWT(

@@ -119,6 +119,31 @@ describe('Category Class', () => {
             expect(transaction.category).toEqual('Rent');
         });
 
+        it('Should categorize as Gym', () => {
+
+            let transaction = {
+                'merchant_name': 'YMCA',
+                'amount': '$79.00',
+                'category': 'Shopping & Entertainment: Hobbies',
+                'date': '07/23/2019',
+                'description': 'YMCA SILICON VALLEY-AO DR408-3516473 CA',
+                'transaction_type': 'credit'
+            };
+
+            let rule = {
+                "expression": "YMCA",
+                "properties_to_match": [
+                    "merchant_name"
+                ],
+                "updated_values": {
+                    "category": "Gym"
+                }
+            };
+
+            category.categorizeItem(rule, transaction);
+            expect(transaction.category).toEqual('Gym');
+        });
+
     });
 
     describe('categorize Method', () => {
@@ -163,6 +188,14 @@ describe('Category Class', () => {
                 'date': '07/06/2019',
                 'description': 'PIZZERIA VENTI MOUNTAIN VIEWCA',
                 'transaction_type': 'credit'
+            },
+            {
+                'merchant_name': 'YMCA',
+                'amount': '$79.00',
+                'category': 'Shopping & Entertainment: Hobbies',
+                'date': '07/23/2019',
+                'description': 'YMCA SILICON VALLEY-AO DR408-3516473 CA',
+                'transaction_type': 'credit'
             }];
 
             category.categorize(transactionList);
@@ -172,6 +205,7 @@ describe('Category Class', () => {
             expect(transactionList[2].category).toEqual('Entertainment');
             expect(transactionList[3].category).toEqual('Subscriptions');
             expect(transactionList[4].category).toEqual('Restaurants & Dining');
+            expect(transactionList[5].category).toEqual('Gym');
 
         });
 
