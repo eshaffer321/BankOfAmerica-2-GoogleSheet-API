@@ -35,7 +35,7 @@ export class Transaction {
 
             await this.googleSheetsApi.update({req: params, data: cells});
 
-            new Email({
+            await new Email({
                 subject: 'Transaction Log',
                 html: this.generateTransactionLogHTML(transactionLog)
             }).send();

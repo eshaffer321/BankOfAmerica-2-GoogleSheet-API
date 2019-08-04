@@ -35,7 +35,9 @@ sudo docker run --name=boa-api -p 80:80 -d \
            --env PRIVATE_KEY="${PRIVATE_KEY}" \
            --env SPREADSHEET_ID="${SPREADSHEET_ID}" \
            --env CLIENT_EMAIL="${CLIENT_EMAIL}" \
-           --env SHEET_ID="${SHEET_ID}" \
+           --env MAILGUN_API_KEY="${MAILGUN_API_KEY}" \
+           --env TO_EMAIL="${TO_EMAIL}" \
+           --env MAILGUN_DOMAIN="${MAILGUN_DOMAIN}" \
             erickshaffer/boa-spreadsheet-api:latest
 ```
 

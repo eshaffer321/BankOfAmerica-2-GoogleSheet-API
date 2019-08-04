@@ -1,8 +1,10 @@
 const mailgun = require("mailgun-js");
-const mg = mailgun({apiKey: process.env['MAILGUN_API_KEY'], domain: process.env['MAILGUN_DOMAIN']});
+const mg = process.env['MAILGUN_API_KEY'] ? mailgun({
+    apiKey: process.env['MAILGUN_API_KEY'],
+    domain: process.env['MAILGUN_DOMAIN']
+}) : undefined;
 const moment = require('moment');
 import {Logger} from "./logger";
-
 
 export class Email {
 
@@ -12,9 +14,14 @@ export class Email {
         this.subject = params.subject + ' ' + moment().format('MM-DD-YY');
         this.html = params.html ? params.html : params.text;
         this.logger = new Logger();
+        this.emailEnabled = !!(process.env['MAILGUN_API_KEY'] && process.env['MAILGUN_DOMAIN'])
     }
 
-    send() {
+    async send() {
+
+        if (!this.emailEnabled) {
+            return 'Email not enabled'
+        }
 
         const data = {
             from: this.from,
@@ -23,8 +30,10 @@ export class Email {
             html: this.html
         };
 
-        mg.messages().send(data, function (error, body) {
-            if (error) { this.logger.log(error); }
+        await mg.messages().send(data, function (error, body) {
+            if (error) {
+                this.logger.log(error);
+            }
             this.logger.log(body);
         });
 

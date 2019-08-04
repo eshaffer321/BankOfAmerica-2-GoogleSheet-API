@@ -77,9 +77,9 @@ app.post('/transaction', async function (req, res) {
 
     let transaction = new Transaction();
 
-    let result = await transaction.updateTransactions(req.body);
-
     let income = new Income();
+
+    let result = await transaction.updateTransactions(req.body);
 
     await income.insertIncome(req.body);
 
