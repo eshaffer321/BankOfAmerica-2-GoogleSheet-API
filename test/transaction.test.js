@@ -1,8 +1,12 @@
 import "@babel/polyfill";
 import {Transaction} from "../src/transaction";
 import {Google} from "../src/google";
+import {Logger} from "../src/logger";
+import {Email} from "../src/email";
 
 jest.mock("../src/google");
+jest.mock("../src/logger");
+jest.mock("../src/email");
 
 describe('Transaction Class', () => {
 
@@ -17,6 +21,16 @@ describe('Transaction Class', () => {
                     update: () => {
                         return 'Success'
                     }
+                };
+            });
+            Email.mockImplementation(() => {
+                return {
+                    send: async () => {}
+                };
+            });
+            Logger.mockImplementation(() => {
+                return {
+                    log: async () => {}
                 };
             });
         });
@@ -71,13 +85,97 @@ describe('Transaction Class', () => {
 
             let results = await transaction.updateTransactions(newTransactions);
 
-            expect(results).toEqual('Success');
+            expect(Email).toHaveBeenCalledTimes(1);
+
+            expect(Logger).toHaveBeenCalledTimes(1);
+
+            expect(results).toBeTruthy();
+
+            expect(results.length).toBeGreaterThan(1)
 
         });
 
     });
 
     describe('insertTransactionsIntoCells Method', () => {
+
+        it('Should return a list of transactions inserted', async () => {
+
+            let newTransactions = [{
+                'merchant_name': 'EDWARD JONES',
+                'amount': 200.00,
+                'category': 'Investments',
+                'date': '07/31/2019',
+                'description': 'EDWARD JONES DES:INVESTMENT ID:12345 721813321 INDN:JANE DOE CO ID:XXXXX44444 PPD',
+                'transaction_type': 'checking',
+                columnNumber: 24
+            }, {
+                'merchant_name': 'VENMO',
+                'amount': 50.29,
+                'category': 'Cash, Checks & Misc: Other Expenses',
+                'date': '07/31/2019',
+                'description': 'VENMO 06/28 PURCHASE 855-812-4430 NY',
+                'transaction_type': 'checking',
+                columnNumber: 48
+            }, {
+                'merchant_name': 'CHEVRON',
+                'amount': 44.23,
+                'category': 'Transportation: Gasoline/Fuel',
+                'date': '07/31/2019',
+                'description': 'CHEVRON 0095006 TAHOE PARADISCA',
+                'transaction_type': 'credit',
+                columnNumber: 33
+            }, {
+                'merchant_name': '76 - DBA T.B.D.J INC', // DUPLICATE
+                'amount': 46.38,
+                'category': 'Transportation',
+                'date': '07/31/2019',
+                'description': '76 - DBA T.B.D.J INC NEW YORK CA',
+                'transaction_type': 'credit',
+                columnNumber: 33
+            }, {
+                'merchant_name': 'SUR LA TABLE',
+                'amount': 9.94,
+                'category': 'Home',
+                'date': '07/31/2019',
+                'description': 'SUR LA TABLE LOS GATOS LOS GATOS CA',
+                'transaction_type': 'credit',
+                columnNumber: 45
+            }, {
+                'merchant_name': 'TJ MAXX',
+                'amount': 176.48,
+                'category': 'Home',
+                'date': '07/31/2019',
+                'description': 'TJMAXX #0628 NEW YORK CA',
+                'transaction_type': 'credit',
+                columnNumber: 45
+            },
+                {
+                    'merchant_name': 'YMCA',
+                    'amount': 79.00,
+                    'category': 'Gym',
+                    'date': '07/31/2019',
+                    'description': 'YMCA NEW YORK CA',
+                    'transaction_type': 'credit',
+                    columnNumber: 15
+                }];
+
+            let transaction = new Transaction();
+
+            let cells = require('./resources/transaction-google-cells');
+
+            let results = await transaction.insertTransactionsIntoCells(newTransactions, cells);
+
+            expect(results.length).toEqual(7);
+
+            for (let i = 0; i < results.length; i++) {
+                expect(results[i].amount).toBeTruthy();
+                expect(results[i].merchant_name).toBeTruthy();
+                expect(results[i].date).toBeTruthy();
+                expect(results[i].open_cell).toBeTruthy();
+            }
+
+        });
 
         it('Should properly update transactions', async () => {
 
@@ -146,13 +244,159 @@ describe('Transaction Class', () => {
 
             await transaction.insertTransactionsIntoCells(newTransactions, cells);
 
-            expect(transaction.uniqueTransaction(newTransactions[0], cells)).toEqual(false);
-            expect(transaction.uniqueTransaction(newTransactions[1], cells)).toEqual(false);
-            expect(transaction.uniqueTransaction(newTransactions[2], cells)).toEqual(false);
-            expect(transaction.uniqueTransaction(newTransactions[3], cells)).toEqual(false);
-            expect(transaction.uniqueTransaction(newTransactions[4], cells)).toEqual(false);
-            expect(transaction.uniqueTransaction(newTransactions[5], cells)).toEqual(false);
-            expect(transaction.uniqueTransaction(newTransactions[6], cells)).toEqual(false);
+            for (let i = 0; i < newTransactions.length; i++) {
+                expect(transaction.uniqueTransaction(newTransactions[i], cells)).toEqual(false);
+            }
+
+        });
+
+    });
+
+    describe('generateTransactionLogHTML Method', () => {
+
+        it('Should return a of html transactions', async () => {
+
+            let newTransactions = [{
+                'merchant_name': 'EDWARD JONES',
+                'amount': 200.00,
+                'category': 'Investments',
+                'date': '07/31/2019',
+                'description': 'EDWARD JONES DES:INVESTMENT ID:12345 721813321 INDN:JANE DOE CO ID:XXXXX44444 PPD',
+                'transaction_type': 'checking',
+                columnNumber: 24
+            }, {
+                'merchant_name': 'VENMO',
+                'amount': 50.29,
+                'category': 'Cash, Checks & Misc: Other Expenses',
+                'date': '07/31/2019',
+                'description': 'VENMO 06/28 PURCHASE 855-812-4430 NY',
+                'transaction_type': 'checking',
+                columnNumber: 48
+            }, {
+                'merchant_name': 'CHEVRON',
+                'amount': 44.23,
+                'category': 'Transportation: Gasoline/Fuel',
+                'date': '07/31/2019',
+                'description': 'CHEVRON 0095006 TAHOE PARADISCA',
+                'transaction_type': 'credit',
+                columnNumber: 33
+            }, {
+                'merchant_name': '76 - DBA T.B.D.J INC', // DUPLICATE
+                'amount': 46.38,
+                'category': 'Transportation',
+                'date': '07/31/2019',
+                'description': '76 - DBA T.B.D.J INC NEW YORK CA',
+                'transaction_type': 'credit',
+                columnNumber: 33
+            }, {
+                'merchant_name': 'SUR LA TABLE',
+                'amount': 9.94,
+                'category': 'Home',
+                'date': '07/01/2019',
+                'description': 'SUR LA TABLE LOS GATOS LOS GATOS CA',
+                'transaction_type': 'credit',
+                columnNumber: 45
+            }, {
+                'merchant_name': 'TJ MAXX',
+                'amount': 176.48,
+                'category': 'Home',
+                'date': '07/01/2019',
+                'description': 'HOMEGOODS',
+                'transaction_type': 'credit',
+                columnNumber: 45
+            },
+            {
+                'merchant_name': 'YMCA',
+                'amount': 79.00,
+                'category': 'Gym',
+                'date': '07/01/2019',
+                'description': 'YMCA NEW YORK CA',
+                'transaction_type': 'credit',
+                columnNumber: 15
+            }];
+
+            let transaction = new Transaction();
+
+            let cells = require('./resources/transaction-google-cells');
+
+            let results = await transaction.insertTransactionsIntoCells(newTransactions, cells);
+
+            let htmlData = await transaction.generateTransactionLogHTML(results);
+
+            expect(htmlData).toBeTruthy();
+
+        });
+
+        it('Should properly update transactions', async () => {
+
+            let newTransactions = [{
+                'merchant_name': 'EDWARD JONES',
+                'amount': 200.00,
+                'category': 'Investments',
+                'date': '07/20/2019',
+                'description': 'EDWARD JONES DES:INVESTMENT ID:12345 721813321 INDN:JANE DOE CO ID:XXXXX44444 PPD',
+                'transaction_type': 'checking',
+                columnNumber: 24
+            }, {
+                'merchant_name': 'VENMO',
+                'amount': 50.29,
+                'category': 'Cash, Checks & Misc: Other Expenses',
+                'date': '07/11/2019',
+                'description': 'VENMO 06/28 PURCHASE 855-812-4430 NY',
+                'transaction_type': 'checking',
+                columnNumber: 48
+            }, {
+                'merchant_name': 'CHEVRON',
+                'amount': 44.23,
+                'category': 'Transportation: Gasoline/Fuel',
+                'date': '07/21/2019',
+                'description': 'CHEVRON 0095006 TAHOE PARADISCA',
+                'transaction_type': 'credit',
+                columnNumber: 33
+            }, {
+                'merchant_name': '76 - DBA T.B.D.J INC',
+                'amount': 46.38,
+                'category': 'Transportation',
+                'date': '07/06/2019',
+                'description': '76 - DBA T.B.D.J INC NEW YORK CA',
+                'transaction_type': 'credit',
+                columnNumber: 33
+            }, {
+                'merchant_name': 'SUR LA TABLE',
+                'amount': 9.94,
+                'category': 'Home',
+                'date': '07/14/2019',
+                'description': 'SUR LA TABLE LOS GATOS LOS GATOS CA',
+                'transaction_type': 'credit',
+                columnNumber: 45
+            }, {
+                'merchant_name': 'TJ MAXX',
+                'amount': 176.48,
+                'category': 'Home',
+                'date': '07/13/2019',
+                'description': 'TJMAXX #0628 NEW YORK CA',
+                'transaction_type': 'credit',
+                columnNumber: 45
+            },
+                {
+                    'merchant_name': 'YMCA',
+                    'amount': 79.00,
+                    'category': 'Gym',
+                    'date': '07/13/2019',
+                    'description': 'YMCA NEW YORK CA',
+                    'transaction_type': 'credit',
+                    columnNumber: 15
+                }];
+
+            let transaction = new Transaction();
+
+            let cells = require('./resources/transaction-google-cells');
+
+            await transaction.insertTransactionsIntoCells(newTransactions, cells);
+
+            for (let i = 0; i < newTransactions.length; i++) {
+                expect(transaction.uniqueTransaction(newTransactions[i], cells)).toEqual(false);
+            }
 
         });
 
@@ -479,6 +723,27 @@ describe('Transaction Class', () => {
             let result = transaction.uniqueTransaction(uniqueTransaction, cells);
 
             expect(result).toEqual(false);
+
+        });
+
+        it('should return list with one new transaction', () => {
+
+            let uniqueTransaction = {
+                merchant_name: 'Check',
+                amount: 3495.00,
+                category: 'Rent',
+                date: '07/02/2019',
+                description:
+                    'check',
+                transaction_type: 'checking',
+                columnNumber: 3
+            };
+
+            let transaction = new Transaction();
+
+            let result = transaction.inputTransactionIntoRow(uniqueTransaction, cells);
+
+            expect(result.open_cell).toEqual(true)
 
         });
 

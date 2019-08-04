@@ -1,4 +1,3 @@
-require('dotenv').config();
 import {Google} from "./google";
 let moment = require('moment');
 

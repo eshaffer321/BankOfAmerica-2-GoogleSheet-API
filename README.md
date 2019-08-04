@@ -40,9 +40,8 @@ sudo docker run --name=boa-api -p 80:80 -d \
 ```
 
 ## Environment Variables
-This project uses a `.env` file for environment variables. This requires a spreadsheet id, which can be found in the url 
-of a your google sheet. It also requires a sheet id, which is a template sheet that will be copied each month. The template sheet ID can be can be found by using the [google sheets api](https://developers.google.com/sheets/api/reference/rest/).
-Here is an example of the `.env` file:
+These are the environment variables that must be set. If you would like to get email reports from mail gun,
+provide the mailgun credentials.
 ```
 SPREADSHEET_ID=
 SHEET_ID=
@@ -50,6 +49,9 @@ PORT=
 NODE_ENV=
 CLIENT_EMAIL=
 PRIVATE_KEY=
+MAILGUN_API_KEY=
+MAILGUN_DOMAIN=
+TO_EMAIL=
 ```
 ## How it works
 There are 2 important files that allow the service to correctly insert transcation into the sheet. 

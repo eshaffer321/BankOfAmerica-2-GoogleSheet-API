@@ -1,0 +1,18 @@
+version: '3'
+services:
+  mail:
+    image: bytemark/smtp
+    restart: always
+  boa-api:
+    ports:
+    - "80:80"
+    environment:
+    - PRIVATE_KEY
+    - CLIENT_EMAIL
+    - SHEET_ID
+    - SPREADSHEET_ID
+    - PORT
+    - NODE_ENV
+    build:
+      context: .
+      dockerfile: Dockerfile

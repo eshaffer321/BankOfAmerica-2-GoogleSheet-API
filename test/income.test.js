@@ -2,11 +2,76 @@ import "@babel/polyfill";
 import {Income} from "../src/income";
 import {Google} from "../src/google";
 
-const moment = require('moment');
-
 jest.mock("../src/google");
 
 describe('Income Class', () => {
+
+    describe('insertIncome Method', () => {
+
+        beforeAll(() => {
+
+            Google.mockImplementation(() => {
+                return {
+                    get: async () => {
+                        return [
+                            [ '03-15-2019', ' ', ' ', 14.98 ],
+                            [ ' ', ' ', ' ', ' ' ],
+                            [ ' ', ' ', ' ', ' ' ],
+                            [ ' ', ' ', ' ', ' ' ],
+                            [ ' ', ' ', ' ', ' ' ],
+                            [ ' ', ' ', ' ', ' ' ],
+                            [ ' ', ' ', ' ', ' ' ],
+                            [ ' ', ' ', ' ', ' ' ],
+                            [ ' ', ' ', ' ', ' ' ],
+                            [ ' ', ' ', ' ', ' ' ],
+                            [ ' ', ' ', ' ', ' ' ],
+                            [ ' ', ' ', ' ', ' ' ],
+                            [ ' ', ' ', ' ', ' ' ],
+                            [ ' ', ' ', ' ', ' ' ],
+                            [ ' ', ' ', ' ', ' ' ] ];
+                    },
+                    update: async () => {
+                        return 'Success';
+                    }
+                };
+            });
+
+        });
+
+        it('Should return only income transactions', async () => {
+
+            let transactionList = [{
+                'merchant_name': 'Counter Credit',
+                'amount': '100.00',
+                'category': 'Income',
+                'date': '07/03/2019',
+                'description': 'activity type deposit',
+                'transaction_type': 'checking'
+            }, {
+                'merchant_name': 'EDWARD JONES',
+                'amount': '-200.00',
+                'category': 'Savings & Transfers: Savings',
+                'date': '07/01/2019',
+                'description': 'EDWARD JONES DES:INVESTMENT ID:12345 721813321 INDN:JANE DOE CO ID:XXXXX45811 PPD',
+                'transaction_type': 'checking'
+            }, {
+                'merchant_name': 'VENMO',
+                'amount': '-30.29',
+                'category': 'Cash, Checks & Misc: Other Expenses',
+                'date': '07/01/2019',
+                'description': 'VENMO 06/28 PURCHASE 855-812-4430 NY',
+                'transaction_type': 'checking'
+            }];
+
+            const income = new Income();
+
+            await income.insertIncome(transactionList);
+
+            expect(Google).toHaveBeenCalledTimes(1)
+
+        });
+
+    });
 
     describe('createIncomeList Method', () => {
 

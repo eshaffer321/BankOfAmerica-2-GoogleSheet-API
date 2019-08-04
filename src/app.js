@@ -3,6 +3,7 @@ import {Date} from "./date";
 import {Transaction} from "./transaction";
 import {Logger} from "./logger";
 import {Income} from "./income";
+import {Email} from "./email";
 
 const express = require('express');
 const app = express();
