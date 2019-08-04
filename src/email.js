@@ -30,13 +30,11 @@ export class Email {
             html: this.html
         };
 
-        await mg.messages().send(data, function (error, body) {
-            let self = this;
-            if (error) {
-                self.logger.log(error);
-            }
-            self.logger.log(body);
-        });
+        try {
+            await mg.messages().send(data);
+        }catch (e) {
+            this.logger.log('Error sending email: ' + e)
+        }
 
     }
 
