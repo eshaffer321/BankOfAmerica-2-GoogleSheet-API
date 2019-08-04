@@ -31,10 +31,11 @@ export class Email {
         };
 
         await mg.messages().send(data, function (error, body) {
+            let self = this;
             if (error) {
-                this.logger.log(error);
+                self.logger.log(error);
             }
-            this.logger.log(body);
+            self.logger.log(body);
         });
 
     }
