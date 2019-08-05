@@ -71,15 +71,15 @@ export class Transaction {
                  "<th>Open Cell</th>" +
                "</tr>";
 
-        for (let i = 0; i < transactionLog.length; i++) {
+        transactionLog.forEach(function(item) {
             table = table +
                 "<tr>" +
-                  "<td>"+ transactionLog[0].date + "</td>" +
-                  "<td>"+ transactionLog[0].merchant_name + "</td>" +
-                  "<td>"+ transactionLog[0].amount + "</td>" +
-                  "<td>"+ transactionLog[0].open_cell + "</td>" +
+                "<td>"+ item.date + "</td>" +
+                "<td>"+ item.merchant_name + "</td>" +
+                "<td>"+ item.amount + "</td>" +
+                "<td>"+ item.open_cell + "</td>" +
                 "</tr>";
-        }
+        });
 
         return table + "</table>";
     }
@@ -121,7 +121,7 @@ export class Transaction {
         let self = this;
         let transactionLogList = [];
         transactionList.forEach(function (transaction) {
-            if (self.uniqueTransaction(transaction, cells)) {
+            if (self.uniqueTransaction(transaction, cells) && transaction.columnNumber) {
                 transactionLogList.push(self.inputTransactionIntoRow(transaction, cells));
             }
         });
@@ -142,7 +142,8 @@ export class Transaction {
 
     compare(row, transaction) {
 
-        return row[transaction.columnNumber] === transaction.date &&
+        return transaction.columnNumber &&
+            row[transaction.columnNumber] === transaction.date &&
             row[transaction.columnNumber + 1] === transaction.merchant_name &&
             parseFloat(row[transaction.columnNumber + 2]) === Math.abs(transaction.amount)
 

@@ -1,20 +1,38 @@
 [
   {
-    "expression": "SERAO",
+    "expression": "Payment",
     "properties_to_match": [
-      "merchant_name"
+      "category"
     ],
     "updated_values": {
-      "category": "Gym"
+      "category": "Credit Card Payment"
     }
   },
   {
-    "expression": "Audible",
+    "expression": "Deposits",
     "properties_to_match": [
-      "merchant_name"
+      "category"
     ],
     "updated_values": {
-      "category": "Subscriptions"
+      "category": "Income"
+    }
+  },
+  {
+    "expression": "Home",
+    "properties_to_match": [
+      "category"
+    ],
+    "updated_values": {
+      "category": "Home"
+    }
+  },
+  {
+    "expression": "Travel",
+    "properties_to_match": [
+      "category"
+    ],
+    "updated_values": {
+      "category": "Travel"
     }
   },
   {
@@ -45,24 +63,6 @@
     }
   },
   {
-    "expression": "COMCAST",
-    "properties_to_match": [
-      "merchant_name"
-    ],
-    "updated_values": {
-      "category": "Utilities"
-    }
-  },
-  {
-    "expression": "Clothing",
-    "properties_to_match": [
-      "category"
-    ],
-    "updated_values": {
-      "category": "Clothing"
-    }
-  },
-  {
     "expression": ": Entertainment",
     "properties_to_match": [
       "category"
@@ -81,6 +81,51 @@
     }
   },
   {
+    "expression": "Clothing",
+    "properties_to_match": [
+      "category"
+    ],
+    "updated_values": {
+      "category": "Clothing"
+    }
+  },
+  {
+    "expression": "Income",
+    "properties_to_match": [
+      "category"
+    ],
+    "updated_values": {
+      "category": "Income"
+    }
+  },
+  {
+    "expression": "SERAO",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Gym"
+    }
+  },
+  {
+    "expression": "Audible",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Subscriptions"
+    }
+  },
+  {
+    "expression": "COMCAST",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Utilities"
+    }
+  },
+  {
     "expression": "CALIFORNIA DMV",
     "properties_to_match": [
       "merchant_name"
@@ -96,15 +141,6 @@
     ],
     "updated_values": {
       "category": "Transportation"
-    }
-  },
-  {
-    "expression": "Income",
-    "properties_to_match": [
-      "category"
-    ],
-    "updated_values": {
-      "category": "Income"
     }
   },
   {
@@ -189,15 +225,6 @@
     }
   },
   {
-    "expression": "Travel",
-    "properties_to_match": [
-      "category"
-    ],
-    "updated_values": {
-      "category": "Travel"
-    }
-  },
-  {
     "expression": "STATE FARM",
     "properties_to_match": [
       "merchant_name"
@@ -234,39 +261,12 @@
     }
   },
   {
-    "expression": "Home",
-    "properties_to_match": [
-      "category"
-    ],
-    "updated_values": {
-      "category": "Home"
-    }
-  },
-  {
     "expression": "NOVA SALON SYSTEMS",
     "properties_to_match": [
       "merchant_name"
     ],
     "updated_values": {
       "category": "Work Expenses"
-    }
-  },
-  {
-    "expression": "Deposits",
-    "properties_to_match": [
-      "category"
-    ],
-    "updated_values": {
-      "category": "Income"
-    }
-  },
-  {
-    "expression": "Payment",
-    "properties_to_match": [
-      "category"
-    ],
-    "updated_values": {
-      "category": "Credit Card Payment"
     }
   },
   {
@@ -324,15 +324,6 @@
     }
   },
   {
-    "expression": "PACIFIC GAS AND ELECTRIC",
-    "properties_to_match": [
-      "merchant_name"
-    ],
-    "updated_values": {
-      "category": "Utilities"
-    }
-  },
-  {
     "expression": "TJ MAXX",
     "properties_to_match": [
       "merchant_name"
@@ -348,6 +339,33 @@
     ],
     "updated_values": {
       "category": "Entertainment"
+    }
+  },
+  {
+    "expression": "PACIFIC GAS AND ELECTRIC",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Utilities"
+    }
+  },
+  {
+    "expression": "Amazon web services",
+    "properties_to_match": [
+      "merchant_name"
+    ],
+    "updated_values": {
+      "category": "Other"
+    }
+  },
+  {
+    "expression": "-313.39",
+    "properties_to_match": [
+      "amount"
+    ],
+    "updated_values": {
+      "category": "Transportation"
     }
   }
 ]

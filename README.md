@@ -31,9 +31,10 @@ You will need a google service account with correct IAM policies for accesing go
 Use the following command to start a docker container with the latest image. Please make sure that all the following environment variables are set in your shell before running.
 ```
 sudo docker run --name=boa-api -p 80:80 -d \
-           -v ~/boa-api/logs:/app/var/logs/boa-api \
+           -v ~/log:/app/log \
            --env PRIVATE_KEY="${PRIVATE_KEY}" \
            --env SPREADSHEET_ID="${SPREADSHEET_ID}" \
+           --env SHEET_ID="${SHEET_ID}" \
            --env CLIENT_EMAIL="${CLIENT_EMAIL}" \
            --env MAILGUN_API_KEY="${MAILGUN_API_KEY}" \
            --env TO_EMAIL="${TO_EMAIL}" \

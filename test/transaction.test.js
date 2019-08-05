@@ -749,4 +749,78 @@ describe('Transaction Class', () => {
 
     });
 
+    describe('transactionLog Test', () => {
+
+        it('should return a 4 new items in transaction log', async () => {
+
+            beforeAll(() => {
+                Google.mockImplementation(() => {
+                    return {
+                        get: async () => {
+                            return require('./resources/transaction-google-cells-blank');
+                        },
+                        update: () => {
+                            return 'Success'
+                        }
+                    };
+                });
+                Email.mockImplementation(() => {
+                    return {
+                        send: async () => {}
+                    };
+                });
+                Logger.mockImplementation(() => {
+                    return {
+                        log: async () => {}
+                    };
+                });
+            });
+
+            let allNewTransaction = require('./resources/transaction-list-3');
+
+            let transaction = new Transaction();
+
+            let results = await transaction.updateTransactions(allNewTransaction);
+
+            expect(results.length).toBeGreaterThan(3);
+
+        });
+
+        it('should return a 4 new items in transaction log', async () => {
+
+            beforeAll(() => {
+                Google.mockImplementation(() => {
+                    return {
+                        get: async () => {
+                            return require('./resources/transaction-google-cells-blank');
+                        },
+                        update: () => {
+                            return 'Success'
+                        }
+                    };
+                });
+                Email.mockImplementation(() => {
+                    return {
+                        send: async () => {}
+                    };
+                });
+                Logger.mockImplementation(() => {
+                    return {
+                        log: async () => {}
+                    };
+                });
+            });
+
+            let allNewTransaction = require('./resources/transaction-list-2');
+
+            let transaction = new Transaction();
+
+            let results = await transaction.updateTransactions(allNewTransaction);
+
+            expect(results.length).toEqual(4);
+
+        });
+
+    });
+
 });
