@@ -1,6 +1,9 @@
 import "@babel/polyfill";
 import {Email} from "../src/email";
+import {Logger} from "../src/logger";
+
 jest.mock("../src/google");
+jest.mock("../src/logger");
 
 describe('Email Class', () => {
 
@@ -77,7 +80,7 @@ describe('Email Class', () => {
 
             expect(email.emailEnabled).toEqual(true);
 
-            let result = await email.send();
+            await email.send();
 
         });
 
