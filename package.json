@@ -7,7 +7,7 @@
     "build": "babel src -d dist",
     "serve": "node lib/server.js",
     "start": "npm run build && nodemon dist/server.js",
-    "test": "xo && jest --coverage --testPathIgnorePatterns google*",
+    "test": "jest --coverage --testPathIgnorePatterns google*",
     "test-push": "jest --coverage --coverageReporters=text-lcov | coveralls"
   },
   "repository": {
@@ -43,7 +43,6 @@
     "jest": "^24.8.0",
     "nodemon": "^1.19.1",
     "superagent": "^5.1.0",
-    "supertest": "^4.0.2",
-    "xo": "^0.24.0"
+    "supertest": "^4.0.2"
   }
 }

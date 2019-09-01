@@ -1,180 +1,159 @@
-import {Google} from "./google";
-import {Category} from "./category";
-import {Email} from "./email";
-import {Logger} from "./logger";
+import {Google} from './google';
+import {Category} from './category';
+import {Email} from './email';
+import {Logger} from './logger';
 
 export class Transaction {
+	constructor() {
+		this.range = 'F1:BD24';
+		this.className = 'transaction';
+		this.googleSheetsApi = new Google();
+		this.logger = new Logger();
+	}
 
-    constructor() {
-        this.range = 'F1:BD24';
-        this.className = 'transaction';
-        this.googleSheetsApi = new Google();
-        this.logger = new Logger()
-    }
+	async updateTransactions(transactionList) {
+		try {
+			const params = {
+				range: this.range,
+				className: this.className,
+				methodName: 'updateTransactions'
+			};
 
-    async updateTransactions(transactionList) {
+			const cells = await this.googleSheetsApi.get(params);
 
-        try {
-            let params = {
-                range: this.range,
-                className: this.className,
-                methodName: 'updateTransactions'
-            };
+			const category = new Category();
 
-            let cells = await this.googleSheetsApi.get(params);
+			category.categorize(transactionList);
 
-            let category = new Category();
+			this.appendColumn(transactionList);
 
-            category.categorize(transactionList);
+			this.formatAmount(transactionList);
 
-            this.appendColumn(transactionList);
+			const transactionLog = this.insertTransactionsIntoCells(transactionList, cells);
 
-            this.formatAmount(transactionList);
+			await this.googleSheetsApi.update({req: params, data: cells});
 
-            let transactionLog = this.insertTransactionsIntoCells(transactionList, cells);
+			await new Email({
+				subject: 'Transaction Log',
+				html: this.generateTransactionLogHTML(transactionLog)
+			}).send();
 
-            await this.googleSheetsApi.update({req: params, data: cells});
+			this.logger.log({
+				level: 'info',
+				message: transactionLog
+			});
 
-            await new Email({
-                subject: 'Transaction Log',
-                html: this.generateTransactionLogHTML(transactionLog)
-            }).send();
+			return transactionLog;
+		} catch (error) {
+			this.logger.log({
+				level: 'error',
+				message: error.toString()
+			});
+			new Email({
+				subject: 'Transaction Error',
+				html: error.toString()
+			}).send();
+		}
+	}
 
-            this.logger.log({
-                level: 'info',
-                message: transactionLog
-            });
+	generateTransactionLogHTML(transactionLog) {
+		let table = '<table style=\'width:100%\'>' +
+               '<tr>' +
+                 '<th>Date</th>' +
+                 '<th>Merchant</th>' +
+                 '<th>Amount</th>' +
+                 '<th>Open Cell</th>' +
+               '</tr>';
 
-            return transactionLog;
+		transactionLog.forEach(item => {
+			table = table +
+                '<tr>' +
+                '<td>' + item.date + '</td>' +
+                '<td>' + item.merchantName + '</td>' +
+                '<td>' + item.amount + '</td>' +
+                '<td>' + item.openCell + '</td>' +
+                '</tr>';
+		});
 
-        }
-        catch(e) {
-            this.logger.log({
-                level: 'error',
-                message: e.toString()
-            });
-            new Email({
-                subject: 'Transaction Error',
-                html: e.toString()
-            }).send()
-        }
+		return table + '</table>';
+	}
 
-    }
+	appendColumn(transactionList) {
+		const categoryMap = require('../static/ranges');
 
-    generateTransactionLogHTML(transactionLog) {
+		transactionList.forEach(transaction => {
+			if (categoryMap[transaction.category]) {
+				transaction.columnNumber = categoryMap[transaction.category].column;
+			}
+		});
+	}
 
-        let table = "<table style='width:100%'>" +
-               "<tr>" +
-                 "<th>Date</th>" +
-                 "<th>Merchant</th>" +
-                 "<th>Amount</th>" +
-                 "<th>Open Cell</th>" +
-               "</tr>";
+	formatAmount(transactionList) {
+		transactionList.forEach(transaction => {
+			transaction.amount.replace(',', '').replace('$', '');
 
-        transactionLog.forEach(function(item) {
-            table = table +
-                "<tr>" +
-                "<td>"+ item.date + "</td>" +
-                "<td>"+ item.merchant_name + "</td>" +
-                "<td>"+ item.amount + "</td>" +
-                "<td>"+ item.open_cell + "</td>" +
-                "</tr>";
-        });
+			if (transaction.transactionType === 'credit') {
+				transaction.amount = transaction.amount.replace(',', '').replace('$', '');
+			} else {
+				transaction.amount = transaction.amount.toString().replace('-', '').replace(',', '').replace('$', '');
+			}
 
-        return table + "</table>";
-    }
+			Math.abs(transaction.amount);
+		});
+	}
 
-    appendColumn(transactionList) {
+	insertTransactionsIntoCells(transactionList, cells) {
+		const self = this;
+		const transactionLogList = [];
+		transactionList.forEach(transaction => {
+			if (self.uniqueTransaction(transaction, cells) && transaction.columnNumber) {
+				transactionLogList.push(self.inputTransactionIntoRow(transaction, cells));
+			}
+		});
+		return transactionLogList;
+	}
 
-        let categoryMap = require('../static/ranges');
+	uniqueTransaction(transaction, cells) {
+		for (let i = 3; i < 20; i++) {
+			if (this.compare(cells[i], transaction)) {
+				return false;
+			}
+		}
 
-        transactionList.forEach(function (transaction) {
+		return true;
+	}
 
-            if (categoryMap[transaction.category]) {
-                transaction['columnNumber'] = categoryMap[transaction.category].column
-            }
-
-        });
-
-    }
-
-    formatAmount(transactionList) {
-
-        transactionList.forEach(function (transaction) {
-
-            transaction.amount.replace(',', '').replace('$', '');
-
-            if (transaction.transaction_type === 'credit') {
-                transaction.amount = transaction.amount.replace(',', '').replace('$', '');
-            } else {
-                transaction.amount = transaction.amount.toString().replace('-', '').replace(',', '').replace('$', '');
-            }
-
-            Math.abs(transaction.amount);
-
-        });
-
-    }
-
-    insertTransactionsIntoCells(transactionList, cells) {
-
-        let self = this;
-        let transactionLogList = [];
-        transactionList.forEach(function (transaction) {
-            if (self.uniqueTransaction(transaction, cells) && transaction.columnNumber) {
-                transactionLogList.push(self.inputTransactionIntoRow(transaction, cells));
-            }
-        });
-        return transactionLogList;
-
-    }
-
-    uniqueTransaction(transaction, cells) {
-
-        for (let i = 3; i < 20; i++) {
-            if (this.compare(cells[i], transaction)) {
-                return false;
-            }
-        }
-        return true;
-
-    }
-
-    compare(row, transaction) {
-
-        return transaction.columnNumber &&
+	compare(row, transaction) {
+		return transaction.columnNumber &&
             row[transaction.columnNumber] === transaction.date &&
-            row[transaction.columnNumber + 1] === transaction.merchant_name &&
-            parseFloat(row[transaction.columnNumber + 2]) === Math.abs(transaction.amount)
+            row[transaction.columnNumber + 1] === transaction.merchantName &&
+            parseFloat(row[transaction.columnNumber + 2]) === Math.abs(transaction.amount);
+	}
 
-    }
+	inputTransactionIntoRow(transaction, cells) {
+		const newTransactionLogItem = {
+			openCell: false
+		};
 
-    inputTransactionIntoRow(transaction, cells) {
-
-        let newTransactionLogItem = {
-            open_cell: false
-        };
-
-        for (let i = 3; i < 20; i++) {
-            if (
-                cells[i][transaction.columnNumber] === ' ' &&
+		for (let i = 3; i < 20; i++) {
+			if (
+				cells[i][transaction.columnNumber] === ' ' &&
                 cells[i][transaction.columnNumber + 1] === ' ' &&
                 cells[i][transaction.columnNumber + 2] === ' '
-            ) {
-                cells[i][transaction.columnNumber] = transaction.date;
-                cells[i][transaction.columnNumber + 1] = transaction.merchant_name;
-                cells[i][transaction.columnNumber + 2] = transaction.amount;
+			) {
+				cells[i][transaction.columnNumber] = transaction.date;
+				cells[i][transaction.columnNumber + 1] = transaction.merchantName;
+				cells[i][transaction.columnNumber + 2] = transaction.amount;
 
-                newTransactionLogItem.open_cell = true;
-                newTransactionLogItem.date = transaction.date;
-                newTransactionLogItem.merchant_name = transaction.merchant_name;
-                newTransactionLogItem.amount = transaction.amount;
+				newTransactionLogItem.openCell = true;
+				newTransactionLogItem.date = transaction.date;
+				newTransactionLogItem.merchantName = transaction.merchantName;
+				newTransactionLogItem.amount = transaction.amount;
 
-                break;
-            }
-        }
-        return newTransactionLogItem;
+				break;
+			}
+		}
 
-    }
-
+		return newTransactionLogItem;
+	}
 }

@@ -1,178 +1,162 @@
+import {Logger} from './logger';
+
 const {google} = require('googleapis');
+
 const sheets = google.sheets('v4');
-const jwtClient = require('./auth.js');
 const moment = require('moment');
-import {Logger} from "./logger";
+const jwtClient = require('./auth.js');
 
 export class Google {
+	constructor() {
+		this.logger = new Logger();
+	}
 
-    constructor() {
-        this.logger = new Logger();
-    }
+	async get(params) {
+		const self = this;
 
-    async get(params) {
+		const request = {
+			spreadsheetId: process.env.SPREADSHEET_ID,
+			range: moment().format('MM-YY') + '!' + params.range,
+			auth: jwtClient
+		};
 
-        let self = this;
+		return new Promise(((resolve, reject) => {
+			sheets.spreadsheets.values.get(request, (err, response) => {
+				if (err) {
+					self.logger.log({
+						level: 'error',
+						message: 'class.' + params.className + '.' +
+                            params.methodName + ' ' + err
+					});
+					reject(err);
+					return err;
+				}
 
-        let request = {
-            spreadsheetId: process.env['SPREADSHEET_ID'],
-            range: moment().format('MM-YY') + '!' + params.range,
-            auth: jwtClient,
-        };
+				resolve(response.data.values);
+			});
+		}));
+	}
 
-        return new Promise(function(resolve, reject){
-            sheets.spreadsheets.values.get(request, function (err, response) {
-                if (err) {
-                    self.logger.log({
-                        level: 'error',
-                        message: 'class.' + params.className + '.'
-                            + params.methodName + ' ' + err
-                    });
-                    reject(err);
-                    return err;
-                }
-                resolve(response.data.values);
-            });
-        });
+	async update(params) {
+		const self = this;
 
-    }
+		const moment = require('moment');
 
-    async update(params) {
+		const values = params.data;
 
-        let self = this;
+		const resource = {
+			values
+		};
 
-        let moment = require('moment');
+		const request = {
+			spreadsheetId: process.env.SPREADSHEET_ID,
+			range: moment().format('MM-YY') + '!' + params.req.range,
+			valueInputOption: 'USER_ENTERED',
+			auth: jwtClient,
+			resource
+		};
 
-        let values = params.data;
-
-        const resource = {
-            values,
-        };
-
-        let request = {
-            spreadsheetId: process.env['SPREADSHEET_ID'],
-            range: moment().format('MM-YY') + '!' + params.req.range,
-            valueInputOption: 'USER_ENTERED',
-            auth: jwtClient,
-            resource: resource
-        };
-
-        return new Promise(function(resolve, reject){
-            sheets.spreadsheets.values.update(request, function (err, response) {
-
-                if (err) {
-                    self.logger.log({
-                        level: 'error',
-                        message: 'class.' + params.req.className +
+		return new Promise(((resolve, reject) => {
+			sheets.spreadsheets.values.update(request, (err, response) => {
+				if (err) {
+					self.logger.log({
+						level: 'error',
+						message: 'class.' + params.req.className +
                             '.' + params.req.methodName + ' ' + JSON.stringify(err)
-                    });
-                    reject(err);
-                    return err;
-                }
+					});
+					reject(err);
+					return err;
+				}
 
-                resolve('Success')
-            })
-        });
+				resolve('Success');
+			});
+		}));
+	}
 
-    }
+	async getSheets(params) {
+		const self = this;
 
-    async getSheets(params) {
+		return new Promise(((resolve, reject) => {
+			sheets.spreadsheets.get({
+				auth: jwtClient,
+				spreadsheetId: process.env.SPREADSHEET_ID
+			}, (err, response) => {
+				if (err) {
+					self.logger.log({
+						level: 'error',
+						message: 'class.date.getAllSheetNames ' + JSON.stringify(err)
+					});
+					reject(err);
+					return err;
+				}
 
-        let self = this;
+				resolve(response.data.sheets);
+			});
+		}));
+	}
 
-        return new Promise(function(resolve, reject){
-            sheets.spreadsheets.get({
-                auth: jwtClient,
-                spreadsheetId: process.env['SPREADSHEET_ID'],
-            }, function (err, response) {
+	async copyTo(params) {
+		const self = this;
 
-                if (err) {
-                    self.logger.log({
-                        level: 'error',
-                        message: 'class.date.getAllSheetNames ' + JSON.stringify(err)
-                    });
-                    reject(err);
-                    return err;
+		return new Promise(((resolve, reject) => {
+			const request = {
+				spreadsheetId: process.env.SPREADSHEET_ID,
+				sheetId: process.env.SHEET_ID,
+				resource: {
+					destinationSpreadsheetId: process.env.SPREADSHEET_ID
+				},
+				auth: jwtClient
+			};
 
-                }
-                else {
-                    resolve(response.data.sheets);
-                }
-            });
+			sheets.spreadsheets.sheets.copyTo(request, (err, response) => {
+				if (err) {
+					self.logger.log({
+						level: 'error',
+						message: 'class.date.copyFromTemplateToNewSheet ' + JSON.stringify(err)
+					});
+					reject(err);
+					return err;
+				}
 
-        });
+				resolve(response.data);
+			});
+		}));
+	}
 
-    }
+	async batchUpdate(params) {
+		const self = this;
 
-    async copyTo(params) {
+		return new Promise(((resolve, reject) => {
+			const request = {
+				spreadsheetId: process.env.SPREADSHEET_ID,
+				resource: {
+					requests: [
+						{
+							updateSheetProperties: {
+								properties: {
+									sheetId: params.sheetId,
+									title: moment().format('MM-YY')
+								},
+								fields: 'title'
+							}
+						}
+					]
+				},
+				auth: jwtClient
+			};
 
-        let self = this;
+			sheets.spreadsheets.batchUpdate(request, (err, response) => {
+				if (err) {
+					self.logger.log({
+						level: 'error',
+						message: 'class.date.updateSheetName ' + JSON.stringify(err)
+					});
+					reject(err);
+				}
 
-        return new Promise(function(resolve, reject){
-
-            let request = {
-                spreadsheetId: process.env['SPREADSHEET_ID'],
-                sheetId: process.env['SHEET_ID'],
-                resource: {
-                    destinationSpreadsheetId: process.env['SPREADSHEET_ID'],
-                },
-                auth: jwtClient,
-            };
-
-            sheets.spreadsheets.sheets.copyTo(request, function (err, response) {
-                if (err) {
-                    self.logger.log({
-                        level: 'error',
-                        message: 'class.date.copyFromTemplateToNewSheet ' + JSON.stringify(err)
-                    });
-                    reject(err);
-                    return err;
-                }
-                resolve(response.data);
-            });
-
-        });
-
-    }
-
-    async batchUpdate(params) {
-
-        let self = this;
-
-        return new Promise(function(resolve, reject){
-
-            let request = {
-                spreadsheetId: process.env['SPREADSHEET_ID'],
-                resource: {
-                    requests: [
-                        {
-                            updateSheetProperties: {
-                                properties: {
-                                    sheetId: params.sheetId,
-                                    title: moment().format('MM-YY')
-                                },
-                                fields: "title",
-                            }
-                        }
-                    ],
-                },
-                auth: jwtClient,
-            };
-
-            sheets.spreadsheets.batchUpdate(request, function (err, response) {
-                if (err) {
-                    self.logger.log({
-                        level: 'error',
-                        message: 'class.date.updateSheetName ' + JSON.stringify(err)
-                    });
-                    reject(err);
-                }
-                resolve(response);
-                return err;
-            });
-
-        });
-
-    }
-
+				resolve(response);
+				return err;
+			});
+		}));
+	}
 }

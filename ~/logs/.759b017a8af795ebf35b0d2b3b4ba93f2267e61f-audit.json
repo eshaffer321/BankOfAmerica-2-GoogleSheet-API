@@ -1,0 +1,14 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 1
+    },
+    "auditLog": "~/logs/.759b017a8af795ebf35b0d2b3b4ba93f2267e61f-audit.json",
+    "files": [
+        {
+            "date": 1564954181507,
+            "name": "~/logs/boa-api.log.2019-08-04",
+            "hash": "e7d9f9fde91c2a5a71f3ae45bc02ba08"
+        }
+    ]
+}

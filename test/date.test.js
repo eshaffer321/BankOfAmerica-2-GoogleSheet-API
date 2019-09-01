@@ -1,146 +1,134 @@
-import "@babel/polyfill";
-import {Date} from "../src/date";
-import {Google} from "../src/google";
+import '@babel/polyfill';
+import {Date} from '../src/date';
+import {Google} from '../src/google';
 
 const moment = require('moment');
 
-jest.mock("../src/google");
+jest.mock('../src/google');
 
 describe('Date Class', () => {
-
-    describe('currentMonthSheetExists Method', () => {
-
-        it('Should return true that sheet is found', () => {
-
-            let sheetList = [
-                {
-                    properties:
+	describe('currentMonthSheetExists Method', () => {
+		it('Should return true that sheet is found', () => {
+			const sheetList = [
+				{
+					properties:
                         {
-                            sheetId: 759515713,
-                            title: 'Template'
-                        },
-                },
-                {
-                    properties:
-                        {
-                            sheetId: 356906753,
-                            title: moment().format('MM-YY')
+                        	sheetId: 759515713,
+                        	title: 'Template'
                         }
-                }
-            ];
-
-            const date = new Date();
-
-            let result = date.currentMonthSheetExists(sheetList);
-
-            expect(result).toEqual(1);
-        });
-
-        it('Should return false', () => {
-
-            let sheetList = [
-                {
-                    properties:
+				},
+				{
+					properties:
                         {
-                            sheetId: 759515713,
-                            title: 'Template'
-                        },
-                },
-                {
-                    properties:
-                        {
-                            sheetId: 356906753,
-                            title: '99-99'
+                        	sheetId: 356906753,
+                        	title: moment().format('MM-YY')
                         }
-                }
-            ];
+				}
+			];
 
-            const date = new Date();
+			const date = new Date();
 
-            let result = date.currentMonthSheetExists(sheetList);
+			const result = date.currentMonthSheetExists(sheetList);
 
-            expect(result).toEqual(0);
-        });
+			expect(result).toEqual(1);
+		});
 
-    });
+		it('Should return false', () => {
+			const sheetList = [
+				{
+					properties:
+                        {
+                        	sheetId: 759515713,
+                        	title: 'Template'
+                        }
+				},
+				{
+					properties:
+                        {
+                        	sheetId: 356906753,
+                        	title: '99-99'
+                        }
+				}
+			];
 
-    describe('copyNewSheetFromTemplate Method', () => {
+			const date = new Date();
 
-        beforeAll(() => {
-            Google.mockImplementation(() => {
-                return {
-                    copyTo: async () => {
-                        return { sheetId: 1921568500,
-                            title: 'Copy of Template',
-                            index: 2,
-                            sheetType: 'GRID',
-                            gridProperties: { rowCount: 1004, columnCount: 56 } };
-                    },
-                    update: () => {
-                        return 'Success'
-                    }
-                };
-            });
-        });
+			const result = date.currentMonthSheetExists(sheetList);
 
-        it('Should return a new sheet', async () => {
+			expect(result).toEqual(0);
+		});
+	});
 
-            const date = new Date();
+	describe('copyNewSheetFromTemplate Method', () => {
+		beforeAll(() => {
+			Google.mockImplementation(() => {
+				return {
+					copyTo: async () => {
+						return {sheetId: 1921568500,
+							title: 'Copy of Template',
+							index: 2,
+							sheetType: 'GRID',
+							gridProperties: {rowCount: 1004, columnCount: 56}};
+					},
+					update: () => {
+						return 'Success';
+					}
+				};
+			});
+		});
 
-            let result = await date.copyNewSheetFromTemplate();
+		it('Should return a new sheet', async () => {
+			const date = new Date();
 
-            expect(result.title).toEqual('Copy of Template');
-        });
+			const result = await date.copyNewSheetFromTemplate();
 
-    });
+			expect(result.title).toEqual('Copy of Template');
+		});
+	});
 
-    describe('updateSheet Method', () => {
-
-        beforeAll(() => {
-            Google.mockImplementation(() => {
-                return {
-                    copyTo: () => {
-                        return { sheetId: 1921568500,
-                            title: 'Copy of Template',
-                            index: 2,
-                            sheetType: 'GRID',
-                            gridProperties: { rowCount: 1004, columnCount: 56 } };
-                    },
-                    update: () => {
-                        return 'Success'
-                    },
-                    getSheets: () => {
-                        return [
-                            {
-                                properties:
+	describe('updateSheet Method', () => {
+		beforeAll(() => {
+			Google.mockImplementation(() => {
+				return {
+					copyTo: () => {
+						return {sheetId: 1921568500,
+							title: 'Copy of Template',
+							index: 2,
+							sheetType: 'GRID',
+							gridProperties: {rowCount: 1004, columnCount: 56}};
+					},
+					update: () => {
+						return 'Success';
+					},
+					getSheets: () => {
+						return [
+							{
+								properties:
                                     {
-                                        sheetId: 759515713,
-                                        title: 'Template'
-                                    },
-                            },
-                            {
-                                properties:
-                                    {
-                                        sheetId: 356906753,
-                                        title: '99-10'
+                                    	sheetId: 759515713,
+                                    	title: 'Template'
                                     }
-                            }
-                        ]
-                    },
-                    batchUpdate: () => {}
-                };
-            });
-        });
+							},
+							{
+								properties:
+                                    {
+                                    	sheetId: 356906753,
+                                    	title: '99-10'
+                                    }
+							}
+						];
+					},
+					batchUpdate: () => {}
+				};
+			});
+		});
 
-        it('Should return false updated status', async () => {
+		it('Should return false updated status', async () => {
+			const date = new Date();
 
-            const date = new Date();
+			const result = await date.updateSheet();
 
-            let result = await date.updateSheet();
-
-            expect(result.updated).toEqual(true);
-        });
-
-    });
-
+			expect(result.updated).toEqual(true);
+		});
+	});
 });
