@@ -12,3 +12,4 @@ tfplan
 terraform.tfstate
 terraform.tfstate.*
 log/
+~/logs/
