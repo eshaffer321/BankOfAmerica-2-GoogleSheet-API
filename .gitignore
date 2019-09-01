@@ -11,4 +11,4 @@ tfplan
 .terraform/
 terraform.tfstate
 terraform.tfstate.*
-logs/
+log/

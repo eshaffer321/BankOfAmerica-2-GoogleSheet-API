@@ -209,6 +209,29 @@ describe('Category Class', () => {
 
         });
 
+        it('Should properly categorize a list of transactions', () => {
+
+            let transactionList = [{
+                'amount': '$37.70',
+                'description': 'COSTCO GAS #0423 SUNNYVALE CA',
+                'date': '08/13/2019',
+                'merchant_name': 'COSTCO',
+                'category': 'Transportation: Gasoline/Fuel'
+            }, {
+                'amount': '$104.70',
+                'description': 'COSTCO WHSE #0423 SUNNYVALE CA',
+                'date': '08/13/2019',
+                'merchant_name': 'COSTCO',
+                'category': 'Shopping & Entertainment: General Merchandise'
+            }];
+
+            category.categorize(transactionList);
+
+            expect(transactionList[0].category).toEqual('Transportation');
+            expect(transactionList[1].category).toEqual('Groceries');
+
+        });
+
     });
 
 });

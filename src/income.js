@@ -6,7 +6,7 @@ export class Income {
 
     constructor() {
         this.googleSheetsApi = new Google();
-        this.range = 'A21:D51';
+        this.range = 'A21:D100';
         this.className = 'Income';
     }
 

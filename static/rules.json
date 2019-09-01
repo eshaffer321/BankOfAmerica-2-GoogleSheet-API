@@ -367,5 +367,14 @@
     "updated_values": {
       "category": "Transportation"
     }
+  },
+  {
+    "expression": "GAS",
+    "properties_to_match": [
+      "description"
+    ],
+    "updated_values": {
+      "category": "Transportation"
+    }
   }
 ]
