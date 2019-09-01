@@ -1,11 +1,11 @@
 version: '3'
 services:
-  mail:
-    image: bytemark/smtp
-    restart: always
+  boa-cron:
+    image: erickshaffer/boa-cron:latest
   boa-api:
+    image: erickshaffer/
     ports:
-    - "80:80"
+    - "80:${PORT}"
     environment:
     - PRIVATE_KEY
     - CLIENT_EMAIL
@@ -13,6 +13,9 @@ services:
     - SPREADSHEET_ID
     - PORT
     - NODE_ENV
+    - MAILGUN_API_KEY
+    - MAILGUN_DOMAIN
+    - TO_EMAIL
     build:
       context: .
       dockerfile: Dockerfile

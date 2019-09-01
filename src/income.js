@@ -1,81 +1,71 @@
-import {Google} from "./google";
+import {Google} from './google';
 
 require('dotenv').config();
 
 export class Income {
+	constructor() {
+		this.googleSheetsApi = new Google();
+		this.range = 'A21:D100';
+		this.className = 'Income';
+	}
 
-    constructor() {
-        this.googleSheetsApi = new Google();
-        this.range = 'A21:D51';
-        this.className = 'Income';
-    }
+	async insertIncome(transactionList) {
+		const params = {
+			range: this.range,
+			className: this.className,
+			methodName: 'insertIncome'
+		};
 
-    async insertIncome(transactionList) {
+		const cells = await this.googleSheetsApi.get(params);
 
-        let params = {
-            range: this.range,
-            className: this.className,
-            methodName: 'insertIncome',
-        };
+		const incomeList = this.createIncomeList(transactionList);
 
-        let cells = await this.googleSheetsApi.get(params);
+		this.insertIncomeList(incomeList, cells);
 
-        let incomeList = this.createIncomeList(transactionList);
+		await this.googleSheetsApi.update({req: params, data: cells});
+	}
 
-        this.insertIncomeList(incomeList, cells);
+	createIncomeList(transactionList) {
+		const incomeList = [];
 
-        await this.googleSheetsApi.update({req: params, data: cells});
-    }
+		transactionList.forEach(transaction => {
+			if (transaction.category === 'Income') {
+				incomeList.push(transaction);
+			}
+		});
 
+		return incomeList;
+	}
 
-    createIncomeList(transactionList) {
+	insertIncomeList(incomeList, cells) {
+		const self = this;
+		incomeList.forEach(transaction => {
+			if (self.unique(transaction, cells)) {
+				self.insert(transaction, cells);
+			}
+		});
+	}
 
-        let incomeList = [];
+	unique(transaction, cells) {
+		let isUnique = true;
 
-        transactionList.forEach(function(transaction) {
-            if (transaction.category === 'Income') {
-                incomeList.push(transaction);
-            }
-        });
+		cells.forEach(row => {
+			if (row[0] === transaction.date && row[3] !== ' ' && Math.abs(row[3]) === Math.abs(transaction.amount)) {
+				isUnique = false;
+			}
+		});
 
-        return incomeList;
-    }
+		return isUnique;
+	}
 
-    insertIncomeList(incomeList, cells) {
-
-        let self = this;
-        incomeList.forEach(function(transaction) {
-            if (self.unique(transaction, cells)) {
-                self.insert(transaction, cells);
-            }
-        });
-
-    }
-
-    unique(transaction, cells) {
-
-        let isUnique = true;
-
-        cells.forEach(function(row) {
-            if (row[0] === transaction.date && row[3] !== ' ' && Math.abs(row[3]) === Math.abs(transaction.amount)) {
-                isUnique = false;
-            }
-        });
-
-        return isUnique;
-    }
-
-    insert(transaction, cells) {
-
-        let found = 0;
-        cells.forEach(function(row) {
-            if (row[0] === ' ' && row[1] === ' ' && row[2] === ' ' && row[3] === ' ' && !found) {
-                row[0] = transaction.date;
-                row[3] = Math.abs(transaction.amount);
-                found = 1;
-            }
-        });
-
-    }
-
+	insert(transaction, cells) {
+		let found = 0;
+		cells.forEach(row => {
+			if (row[0] === ' ' && row[1] === ' ' && row[2] === ' ' && row[3] === ' ' && !found) {
+				row[0] = transaction.date;
+				row[3] = Math.abs(transaction.amount);
+				found = 1;
+			}
+		});
+	}
 }

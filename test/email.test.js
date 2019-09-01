@@ -1,89 +1,76 @@
-import "@babel/polyfill";
-import {Email} from "../src/email";
-import {Logger} from "../src/logger";
+import '@babel/polyfill';
+import {Email} from '../src/email';
+import {Logger} from '../src/logger';
 
-jest.mock("../src/google");
-jest.mock("../src/logger");
+jest.mock('../src/google');
+jest.mock('../src/logger');
 
 describe('Email Class', () => {
+	describe('email constructor', () => {
+		const OLD_ENV = process.env;
 
-    describe('email constructor', () => {
+		beforeEach(() => {
+			jest.resetModules();
+			process.env = {...OLD_ENV};
+			delete process.env.NODE_ENV;
+		});
 
-        const OLD_ENV = process.env;
+		afterEach(() => {
+			process.env = OLD_ENV;
+		});
 
-        beforeEach(() => {
-            jest.resetModules();
-            process.env = { ...OLD_ENV };
-            delete process.env.NODE_ENV;
-        });
+		it('Should return that email isn\'t enabled when env vars are undefined', () => {
+			process.env.MAILGUN_API_KEY = undefined;
+			process.env.MAILGUN_DOMAIN = undefined;
 
-        afterEach(() => {
-            process.env = OLD_ENV;
-        });
+			const email = new Email({subject: 'Test', text: 'Test'});
 
+			expect(email.emailEnabled).toEqual(false);
+		});
 
-        it('Should return that email isn\'t enabled when env vars are undefined', () => {
+		it('Should have email enabled with api key', () => {
+			process.env.MAILGUN_API_KEY = 'some-fake-api-key';
+			process.env.MAILGUN_DOMAIN = 'example.relay.com';
 
-            process.env['MAILGUN_API_KEY'] = undefined;
-            process.env['MAILGUN_DOMAIN'] = undefined;
+			const email = new Email({subject: 'Test', text: 'Test'});
 
-            let email = new Email({subject: 'Test', text: 'Test'});
+			expect(email.emailEnabled).toEqual(true);
+		});
+	});
 
-            expect(email.emailEnabled).toEqual(false);
-        });
+	describe('send Method', () => {
+		const OLD_ENV = process.env;
 
-        it('Should have email enabled with api key', () => {
+		beforeEach(() => {
+			jest.resetModules();
+			process.env = {...OLD_ENV};
+			delete process.env.NODE_ENV;
+		});
 
-            process.env['MAILGUN_API_KEY'] = 'some-fake-api-key';
-            process.env['MAILGUN_DOMAIN'] = 'example.relay.com';
+		afterEach(() => {
+			process.env = OLD_ENV;
+		});
 
-            let email = new Email({subject: 'Test', text: 'Test'});
+		it('Should return that email isn\'t when env variables not set', async () => {
+			process.env.MAILGUN_API_KEY = undefined;
+			process.env.MAILGUN_DOMAIN = undefined;
 
-            expect(email.emailEnabled).toEqual(true);
-        });
+			const email = new Email({subject: 'Test', text: 'Test'});
 
-    });
+			const result = await email.send();
 
-    describe('send Method', () => {
+			expect(result).toEqual('Email not enabled');
+		});
 
-        const OLD_ENV = process.env;
+		it('Should send an email', async () => {
+			process.env.MAILGUN_API_KEY = 'some-fake-api-key';
+			process.env.MAILGUN_DOMAIN = 'example.relay';
 
-        beforeEach(() => {
-            jest.resetModules();
-            process.env = { ...OLD_ENV };
-            delete process.env.NODE_ENV;
-        });
+			const email = new Email({subject: 'Test', text: 'Test'});
 
-        afterEach(() => {
-            process.env = OLD_ENV;
-        });
+			expect(email.emailEnabled).toEqual(true);
 
-
-        it('Should return that email isn\'t when env variables not set', async () => {
-
-            process.env['MAILGUN_API_KEY'] = undefined;
-            process.env['MAILGUN_DOMAIN'] = undefined;
-
-            let email = new Email({subject: 'Test', text: 'Test'});
-
-            let result = await email.send();
-
-            expect(result).toEqual('Email not enabled');
-        });
-
-        it('Should send an email', async () => {
-
-            process.env['MAILGUN_API_KEY'] = 'some-fake-api-key';
-            process.env['MAILGUN_DOMAIN'] = 'example.relay';
-
-            let email = new Email({subject: 'Test', text: 'Test'});
-
-            expect(email.emailEnabled).toEqual(true);
-
-            await email.send();
-
-        });
-
-    });
-
+			await email.send();
+		});
+	});
 });

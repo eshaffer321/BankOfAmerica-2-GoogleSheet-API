@@ -65,7 +65,7 @@ This use regular expressions to match properties of a transaction, and re-catego
 {
     "expression": "VINEYARDS",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Entertainment"

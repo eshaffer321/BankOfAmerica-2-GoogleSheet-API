@@ -101,7 +101,7 @@
   {
     "expression": "SERAO",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Gym"
@@ -110,7 +110,7 @@
   {
     "expression": "Audible",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Subscriptions"
@@ -119,7 +119,7 @@
   {
     "expression": "COMCAST",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Utilities"
@@ -128,7 +128,7 @@
   {
     "expression": "CALIFORNIA DMV",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Transportation"
@@ -137,7 +137,7 @@
   {
     "expression": "GEICO",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Transportation"
@@ -155,7 +155,7 @@
   {
     "expression": "YMCA",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Gym"
@@ -164,7 +164,7 @@
   {
     "expression": "COSMOPROF",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Work Expenses"
@@ -173,7 +173,7 @@
   {
     "expression": "RWA SERIOUS BEAUTY",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Work Expenses"
@@ -182,7 +182,7 @@
   {
     "expression": "LEMONADE INSURANCE",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Rent"
@@ -191,7 +191,7 @@
   {
     "expression": "COSTCO",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Groceries"
@@ -209,7 +209,7 @@
   {
     "expression": "SALONCENTRIC",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Work Expenses"
@@ -227,7 +227,7 @@
   {
     "expression": "STATE FARM",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Transportation"
@@ -236,7 +236,7 @@
   {
     "expression": "SPOTIFY USA",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Subscriptions"
@@ -245,7 +245,7 @@
   {
     "expression": "EDWARD JONES",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Investments"
@@ -263,7 +263,7 @@
   {
     "expression": "NOVA SALON SYSTEMS",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Work Expenses"
@@ -281,7 +281,7 @@
   {
     "expression": "FEDLOAN SERVICING",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Student Loans"
@@ -290,7 +290,7 @@
   {
     "expression": "TJ MAXX",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Other"
@@ -299,7 +299,7 @@
   {
     "expression": "SALESFORCE.COM",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Income"
@@ -326,7 +326,7 @@
   {
     "expression": "TJ MAXX",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Home"
@@ -335,7 +335,7 @@
   {
     "expression": "VINEYARDS",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Entertainment"
@@ -344,7 +344,7 @@
   {
     "expression": "PACIFIC GAS AND ELECTRIC",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Utilities"
@@ -353,7 +353,7 @@
   {
     "expression": "Amazon web services",
     "properties_to_match": [
-      "merchant_name"
+      "merchantName"
     ],
     "updated_values": {
       "category": "Other"
@@ -363,6 +363,15 @@
     "expression": "-313.39",
     "properties_to_match": [
       "amount"
+    ],
+    "updated_values": {
+      "category": "Transportation"
+    }
+  },
+  {
+    "expression": "GAS",
+    "properties_to_match": [
+      "description"
     ],
     "updated_values": {
       "category": "Transportation"

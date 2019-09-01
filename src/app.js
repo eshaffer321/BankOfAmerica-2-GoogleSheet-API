@@ -1,11 +1,12 @@
-import {Balance} from "./balance";
-import {Date} from "./date";
-import {Transaction} from "./transaction";
-import {Logger} from "./logger";
-import {Income} from "./income";
-import {Email} from "./email";
+import {Balance} from './balance';
+import {Date} from './date';
+import {Transaction} from './transaction';
+import {Logger} from './logger';
+import {Income} from './income';
+import {Email} from './email';
 
 const express = require('express');
+
 const app = express();
 const bodyParser = require('body-parser');
 
@@ -15,90 +16,84 @@ const moment = require('moment');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.post('/update-balance', async function (req, res) {
+app.post('/update-balance', async (req, res) => {
+	logger.log({
+		level: 'info',
+		message: 'server.endpoint.post.update-balance ' + JSON.stringify(req.body)
+	});
 
-    logger.log({
-        level: 'info',
-        message: 'server.endpoint.post.update-balance ' + JSON.stringify(req.body)
-    });
+	const balance = new Balance();
 
-    let balance = new Balance();
+	const result = await balance.updateAccountBalance(req.body);
 
-    let result = await balance.updateAccountBalance(req.body);
-
-    res.send(result);
+	res.send(result);
 });
 
-app.get('/update-date', async function (req, res) {
+app.get('/update-date', async (req, res) => {
+	logger.log({
+		level: 'info',
+		message: 'server.endpoint.get.update-date'
+	});
 
-    logger.log({
-        level: 'info',
-        message: 'server.endpoint.get.update-date'
-    });
+	const date = new Date();
 
-    let date = new Date();
+	const results = await date.updateSheet();
 
-    let results = await date.updateSheet();
-
-    res.send(results);
-
+	res.send(results);
 });
 
-app.get('/date', async function (req, res) {
+app.get('/date', async (req, res) => {
+	logger.log({
+		level: 'info',
+		message: 'server.endpoint.get.date'
+	});
 
-    logger.log({
-        level: 'info',
-        message: 'server.endpoint.get.date'
-    });
-
-    res.send(moment().format('MM-YY'))
+	res.send(moment().format('MM-YY'));
 });
 
-app.get('/categories', function (req, res) {
+app.get('/categories', (req, res) => {
+	logger.log({
+		level: 'info',
+		message: 'server.endpoint.get.categories'
+	});
 
-    logger.log({
-        level: 'info',
-        message: 'server.endpoint.get.categories'
-    });
+	const s = require('../static/ranges');
+	const keys = [];
+	for (const k in s) {
+		keys.push(k);
+	}
 
-    let s = require('../static/ranges');
-    let keys = [];
-    for (let k in s) keys.push(k);
-
-    res.send(keys)
+	res.send(keys);
 });
 
-app.post('/transaction', async function (req, res) {
+app.post('/transaction', async (req, res) => {
+	logger.log({
+		level: 'info',
+		message: 'server.endpoint.post.transactions'
+	});
 
-    logger.log({
-        level: 'info',
-        message: 'server.endpoint.post.transactions'
-    });
+	const transaction = new Transaction();
 
-    let transaction = new Transaction();
+	const income = new Income();
 
-    let income = new Income();
+	const result = await transaction.updateTransactions(req.body);
 
-    let result = await transaction.updateTransactions(req.body);
+	await income.insertIncome(req.body);
 
-    await income.insertIncome(req.body);
-
-    res.send(result);
-
+	res.send(result);
 });
 
-app.post('/income', async function (req, res) {
+app.post('/income', async (req, res) => {
+	logger.log({
+		level: 'info',
+		message: 'server.endpoint.post.income'
+	});
 
-    logger.log({
-        level: 'info',
-        message: 'server.endpoint.post.income'
-    });
+	const income = new Income();
 
-    let income = new Income();
+	await income.insertIncome(req.body);
 
-    await income.insertIncome(req.body);
-
-    res.send('Added income')
+	res.send('Added income');
 });
 
 module.exports = app;

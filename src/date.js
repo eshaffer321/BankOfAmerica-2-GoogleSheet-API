@@ -1,44 +1,41 @@
-import {Google} from "./google";
-let moment = require('moment');
+import {Google} from './google';
+
+const moment = require('moment');
 
 export class Date {
+	constructor() {
+		this.googleSheetsApi = new Google();
+	}
 
-    constructor() {
-        this.googleSheetsApi = new Google();
-    }
+	async updateSheet() {
+		const sheetNames = await this.googleSheetsApi.getSheets();
 
-    async updateSheet() {
+		const exist = this.currentMonthSheetExists(sheetNames);
 
-        let sheetNames = await this.googleSheetsApi.getSheets();
+		if (!exist) {
+			const newSheet = await this.copyNewSheetFromTemplate();
+			await this.updateSheetName(newSheet);
+			return {updated: true};
+		}
 
-        let exist = this.currentMonthSheetExists(sheetNames);
+		return {updated: false};
+	}
 
-        if (!exist) {
-            let newSheet = await this.copyNewSheetFromTemplate();
-            await this.updateSheetName(newSheet);
-            return {updated: true}
-        }
+	currentMonthSheetExists(sheetData) {
+		let found = 0;
+		sheetData.forEach(sheet => {
+			if (sheet.properties.title === moment().format('MM-YY')) {
+				found = 1;
+			}
+		});
+		return found;
+	}
 
-        return {updated: false}
+	async copyNewSheetFromTemplate() {
+		return this.googleSheetsApi.copyTo();
+	}
 
-    }
-
-    currentMonthSheetExists(sheetData) {
-        let found = 0;
-        sheetData.forEach(function(sheet) {
-            if (sheet.properties.title === moment().format('MM-YY')) {
-                found = 1;
-            }
-        });
-        return found;
-    }
-
-    async copyNewSheetFromTemplate() {
-        return await this.googleSheetsApi.copyTo();
-    }
-
-    async updateSheetName(newSheet) {
-        await this.googleSheetsApi.batchUpdate(newSheet);
-    }
-
+	async updateSheetName(newSheet) {
+		await this.googleSheetsApi.batchUpdate(newSheet);
+	}
 }
