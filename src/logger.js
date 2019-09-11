@@ -6,7 +6,7 @@ export class Logger {
 	constructor() {
 		const transport = new (transports.DailyRotateFile)({
 			filename: 'boa-api.log',
-			dirname: 'log',
+			dirname: 'var/log',
 			zippedArchive: true,
 			maxSize: '20m',
 			maxFiles: '1m'

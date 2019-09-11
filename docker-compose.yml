@@ -1,9 +1,23 @@
 version: '3'
 services:
-  boa-cron:
-    image: erickshaffer/boa-cron:latest
-  boa-api:
-    image: erickshaffer/
+
+  selenium-server:
+    image: selenium/standalone-chrome:3.141.59-uranium
+    volumes:
+      - /dev/shm:/dev/shm
+    ports:
+      - "4444:4444"
+
+  cron:
+    image: erickshaffer/boa-cron:0.0.2
+    volumes:
+      - /code/cron:/app/var
+
+  api:
+    image: erickshaffer/boa-spreadsheet-api:0.0.1
+
+    volumes:
+      - /code/api:/app/var
     ports:
     - "80:${PORT}"
     environment:
@@ -16,6 +30,10 @@ services:
     - MAILGUN_API_KEY
     - MAILGUN_DOMAIN
     - TO_EMAIL
-    build:
-      context: .
-      dockerfile: Dockerfile
+
+  boa-scraper:
+    image: erickshaffer/boa-scraper:0.0.1
+    volumes:
+      - /code/scraper:/app/var
+    ports:
+      - "5000:5000"
