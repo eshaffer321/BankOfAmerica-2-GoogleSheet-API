@@ -9,13 +9,12 @@ services:
       - "4444:4444"
 
   cron:
-    image: erickshaffer/boa-cron:0.0.2
+    image: erickshaffer/boa-cron:0.0.3
     volumes:
       - /code/cron:/app/var
 
   api:
-    image: erickshaffer/boa-spreadsheet-api:0.0.1
-
+    image: erickshaffer/boa-spreadsheet-api:0.0.2
     volumes:
       - /code/api:/app/var
     ports:
@@ -31,8 +30,10 @@ services:
     - MAILGUN_DOMAIN
     - TO_EMAIL
 
-  boa-scraper:
-    image: erickshaffer/boa-scraper:0.0.1
+  scraper:
+    image: erickshaffer/boa-scraper:0.0.2
+    environment:
+      - ACCOUNT_FILE_NAME
     volumes:
       - /code/scraper:/app/var
     ports:
